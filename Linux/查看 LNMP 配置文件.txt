@@ -1,0 +1,33 @@
+
+如何在 Linux 中查看 nginx、apache、php、mysql 配置文件路径？
+
+1. 查看 apache 配置文件
+$ ps aux | grep httpd   # 如 /usr/local/apache/bin/httpd
+$ /usr/local/apache/bin/httpd -V | grep "SERVER_CONFIG_FILE"
+
+2. 查看 nginx 配置文件
+$ ps aux | grep nginx   # 如 /usr/local/nginx/sbin/nginx
+$ /usr/local/nginx/sbin/nginx -V
+# 默认放在 安装目录下 conf/nginx.conf
+
+3. 查看 mysql 配置文件
+$ ps aux | grep mysqld  # 如 /usr/bin/mysql
+$ /usr/bin/mysql –verbose –help | grep -A 1 'Default options'
+$ /usr/bin/mysql –print-defaults
+
+4. 查看 php 加载的配置文件路径
+(1)可通过 php 函数 phpinfo 来查看 “Loaded Configuration File” 对应的值
+
+(2)如果是 nginx + php 配置，也可以通过查找 php 执行路径
+$ ps aux | grep php     # 如 /usr/local/nginx/sbin/php-fpm
+$ /usr/local/nginx/sbin/php-fpm -i | grep “Loaded Configuration File”
+
+(3)如果是 apache + mod_php 配置，也可以在 apache 配置文件中查看加载的 php.ini路径
+# 如 PHPIniDir /usr/local/apache/conf/php.ini
+
+
+# 当然也有简单的方法，就是通过 find 来搜索，但是需要进一步筛选，如：
+$ find / -name nginx.conf
+$ find / -name php.ini
+$ find / -name my.cnf
+$ find / -name httpd.conf

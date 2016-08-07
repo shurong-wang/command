@@ -1,0 +1,188 @@
+Memcached
+
+分布式、高速、内存缓存服务器
+与 redis 对比，redis 属于数据库系统，memcached 属于缓存系统。
+
+将 memcached 加入 Windows 服务
+memcached -d install -l 127.0.0.1 -p 11211 -m 64
+-- 并指定参数会使用默认IP、默认端口、默认内存设置）
+
+将 memcached 从 Windows 服务卸载
+memcached -d uninstall
+-- 需要先关闭 memcached 服务才能卸载成功
+
+命令行启动、关闭、重启 memchached：
+memcached -d start
+memcached -d stop
+memcached -d restart
+
+服务器端启动 memcached 配置可选参数：
+-p 指定监听的端口。默认 11211
+-l 指定监听 IP地址。默认监听主机其中一块网卡的 IP 地址
+-m 可管理内存。默认 64 M 
+
+指定参数启动服务示例：
+memcached -l 192.168.80.1 -p 11211 -m 64
+
+客户端-- memcached 未提供客户端：
+
+支持网络连接、可以发送文本指令的工具就可以作为memcached 的客户端
+使用 SecureCRT 等软件，按照 memcached 服务器监听的 IP 和 端口，以 Telnet 协议连接，发送指令即可。
+
+
+# 客户端指令
+
+//设置缓存
+set KEY 压缩标识 有效期 值长度
+VAL
+
+示例：
+set t_name 0 3600 3
+Tom
+
+--压缩标识：用于告知 memcached 服务器，是否压缩后存储数据。
+压缩可以节省磁盘空间。同时，压缩与解压缩会消耗时间。
+
+--有效期：用于表示该 KEY 在什么时间失效。设置方式有两种：时间间隔和时间戳。
+有效期参数区分：大小临界值 30*24*3600=2592000（30天的时间间隔）
+<= 2592000	参数为时间间隔
+> 2592000	参数为时间戳
+
+--值长度：以字节为单位，设置值必须严格与值长度一致
+-- KEY ：字母数字下划线，标识符组成，长度不要大于250字节。实际开发时，建议使用前缀。
+-- VAL ：需要缓存的数据内容序列化字符串，不能超过1M大小，值为替换更新。
+
+//获取缓存
+get KEY
+
+//自增 N 
+incr KEY N
+
+//自减 N
+decr KEY N  
+
+//添加缓存
+add KEY 压缩标识 有效期 值长度
+VAL 
+Tips: 仅添加，如果KEY已经，则添加失败
+
+replace KEY 压缩标识 有效期 值长度
+VAL 
+Tips: 仅替换，如果KEY不存在，则替换失败
+
+//删除指定的 KEY 缓存
+delete KEY	
+
+//清空所有缓存
+flush_all
+
+//获取当前 memcached 服务器状态
+stats
+
+
+# PHP 操作 memcached
+
+PHP 作为 memcached 客户端存在，操作 memcached 需要以下步骤：
+(1)添加 php_memcache.dll 到 PHP 扩展目录
+(2)添加 php.ini 扩展项： extension=php_memcache.dll
+(3)重启 apache 服务器，查看 phpinfo 
+(4)实例化 Memcached 类： $mem = new Memcache();
+(5)连接 Memcached 服务器：$mem->connect($host, $port, $timeout);
+(6)向 memcached 服务器发送指令：
+	$memcache->addServer($host, $port, $timeout);   //向连接池中添加一个 memcache 服务器
+	$memcache->set($key, $var, $flag, $expire);		//替换更新指定 key 的缓存，$expire 为 0 时，永久有效
+	$memcache->add($key, $var, $flag, $expire);		//指定 key 不存在时，存储缓存
+	$memcache->replace($key, $var, $flag, $expire);	//替换已经存在的元素的值
+	$memcache->increment($key, $offset);			//自增元素的值
+	$memcache->decrement($key, $offset);			//自减元素的值
+	$memcache->delete($key);						//删除某个key
+	$memcache->flush();								//删除全部
+	...
+(7)关闭与 memcached 连接：$mem->close();
+
+
+# 分布式缓存服务器
+分布式，使用多台 memcached 服务器，形成 memcached 集群。目的提升 memcache 所能使用硬件资源数量。
+多台 memcached 服务器间不相互通讯，分布式算法由客户端来实现-- 对 PHP 来说，由 memcache 扩展类实现。
+由于 memcached 采用的是取模算法来确定 key 所对应的 memcached 服务器，导致存取时对服务器的数量及其顺序有严格要求。
+
+缓存失效（get_miss）
+memcached 在处理过期的缓存项时，采用懒惰模式处理方法。缓存项过期不会立即删除，直到下一次执行 get 操作才会删除过期的缓存项。
+
+缓存空间已满
+memcache 在插入新数据时，如果空间不足，采用删除最近最少使用的缓存项（RLU策略）。
+
+
+session 入 memcached
+使用 memcache 扩展提供的 session 处理器 session.save_handler 即可实现 session 入 memcached
+通过存储位置配置项 session.save_path ,设置使用的 memcached 服务器信息。
+
+ini_set('session.save_handler', 'memcache');
+ini_set('session.save_path', 'tcp://127.0.0.1:11211');
+// ini_set('session.save_path', 'tcp://127.0.0.1:11211;tcp://host2:port2;tcp://host3:port3');
+session_start();
+$_SESSION['username'] = 'John;
+
+echo session_id();
+此时每个会话数据，就是一个 key/value 型 memcache 的值。key就是当前的 session-id，值就是当前会话被序列号好的数据。
+
+
+ThinkPHP 缓存的使用
+ThinkPHP 封装的数据缓存操作函数 S()，在TP中专门处理缓存。
+S() 所有操作缓存都使用该函数完成！
+
+查询时生成缓存，存储于 memcache。如果一旦缓存存在，则不需要查询数据库（不需要模型）。
+
+<?php
+namespace Back\Controller;
+class CatController extends \Think\Controller {
+	/**
+	 * 列表
+	 */
+	public function listAction() {
+		# 判断分类树缓存是否存在
+		// 初始化缓存配置（调用S传递数组）
+		S(array(
+			'type' => 'memcache',//redis,mongo
+			'host' => '127.0.0.1',
+			'port' => '11211',
+			)
+		);
+
+		// 获取缓存（一个参数表示获取某个KEY的缓存）
+		$cat_tree = S('cat_tree');
+		if (false === $cat_tree) {
+			//缓存读取失败，没有可用的缓存
+			echo 'non - cache';
+			// 从数据库获取数据，整理
+			$m_cat = D('Cat');
+			$cat_tree = $m_cat->getTreeList();
+			// 存入缓存, 键，值，有效期
+			S('cat_tree', $cat_tree, PHP_INT_MAX);
+		}
+		
+		$this->assign('list', $cat_tree);
+		$this->display();
+	}
+
+	/**
+	 *删除
+	 */
+	public function deleteAction($cat_id) {
+		$m_cat = D('Cat');
+		if ($m_cat->delete($cat_id)) {
+			# 清空缓存
+			// 初始化缓存配置（调用S传递数组）
+			S(array(
+				'type' => 'memcache',//redis,mongo
+				'host' => '127.0.0.1',
+				'port' => '11211',
+				));
+			// 值为NULL，表示删除某个缓存项
+			S('cat_tree', NULL);
+			$this->success('删除成功', U('Back/Cat/list'), 0);
+		} else {
+			$this->error('删除失败', U('Back/Cat/list'));
+		}
+	}
+}

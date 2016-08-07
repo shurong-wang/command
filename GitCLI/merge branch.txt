@@ -1,0 +1,30 @@
+
+# 合并 branch 到 mater
+--------------------------------------------------------------------------------
+### gitk --all
+git checkout master
+git status 
+git pull --rebase origin master
+
+git checkout branch_01
+git reset --soft 18095e0
+git add .
+git commit -m '合并提交'
+
+### gitk --all
+git rebase master
+### git status
+### 解决冲突 ...
+### git add .
+### git rebase --continue
+git push origin branch_01 --force
+
+git checkout master
+git rebase branch_01
+### gitk
+git push origin master
+
+--------------------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------

@@ -1,0 +1,6 @@
+Error found when loading /root/.profile:
+stdin:is not a tty
+
+解决方法：
+# 在终端中用命令 gedit /root/.profile
+# 打开文件后找到 mesg n 更改为 tty -s && mesg n

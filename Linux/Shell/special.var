@@ -1,0 +1,11 @@
+#!/bin/sh
+# test special variable
+# Usage: sh special.var file01 file02
+
+echo '$# is:' $#
+echo '$* is:' $*
+echo '$? is:' $?
+echo '$$ is:' $$
+echo '$0 is:' $0
+echo '$2 is:' $2
+

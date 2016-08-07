@@ -1,0 +1,127 @@
+
+》挂载/卸载光盘
+----------------------------------------------------------------
+$ mount /dev/cdrom /mnt/cdrom   # 挂载光盘
+$ umount /mnt/cdrom				# 卸载挂载点
+
+
+》RPM包管理 -- 处理依赖关系
+----------------------------------------------------------------
+软件包名 = 软件名-版本号-发行号-硬件平台.rpm
+示例：sudo-1.7.2pl-5.el5.i386.rpm
+
+(1)查看是否已安装
+$ rpm -q sudo	# 查看 sudo 是否已安装
+$ rpm -V sudo	# 检验 sudo 是否改变过
+
+# 查看未安装的软件包的信息
+$ rpm -qip sudo-1.7.2pl-5.el5.i386.rpm
+
+# 查看安装软件包后产生的文件
+$ rpm -qlp sudo-1.7.2pl-5.el5.i386.rpm
+$ rpm -qa | grep sudo   # 模糊查看 sudo 是否已安装
+$ rpm -u sudo	        # 对软件升级
+
+(2)卸载软件
+$ rpm -e sudo			# 卸载只需要软件名
+$ rpm -e --nodeps sudo  # 强行卸载，不考虑依赖关系（不推荐）
+
+(3)安装软件包（需要完整的软件包名）
+# 测试安装[--test]，测试文件冲突、依赖关系等
+$ rpm -ivh --test sudo-1.7.2pl-5.el5.i386.rpm
+
+# 忽略文件冲突[--replacefiles]
+$ rpm -ivh --replacefiles sudo-1.7.2pl-5.el5.i386.rpm
+
+# 常规安装
+$ rpm -ivh sudo-1.7.2pl-5.el5.i386.rpm
+
+# 升级安装
+# rpm -Uvh sudo-1.8.6p3-15.el6.i686.rpm
+
+# 覆盖安装[--replacepkgs]
+$ rpm -ivh --replacepkgs sudo-1.8.6p3-15.el6.i686.rpm
+
+(4) 查看已安装软件生成的文件
+$ rpm -ql sudo
+	
+(5) 查看已安装软件隶属的软件包
+$ rpm -qf /usr/bin/sudo
+
+(6) 查看已安装软件的详细信息 
+$ rpm -qi sudo
+
+
+》YUM 包管理 -- 依赖网络 yum 源
+----------------------------------------------------------------
+软件包名 = 软件名-版本号-发行号-硬件平台.rpm
+示例：sudo-1.7.2pl-5.el5.i386.rpm
+
+(1)联网安装
+$ yum install sudo	# yum 安装只需要软件名
+
+(2)升级安装
+$ yum check-update sudo
+$ yum update sudo
+
+(3)查看软件源
+$ yum list | grep sudo
+
+(4)查看软件详情
+$ yum info sudo
+
+(5)卸载软件
+$ yum remove sudo
+
+
+》源码包（编译）安装 -- 依赖 gcc
+----------------------------------------------------------------
+源码包 = 软件名-版本号.打包压缩格式
+示例：proftpd-1.3.3d.tar.gz
+
+(0)安装 gcc 
+$ rpm -q gcc		# 查看 sudo 是否已安装
+$ yum install gcc	# gcc 依赖关系复杂，建议 yum 方式安装
+
+(1)解压源码包
+$ tar -xzvf proftpd-1.3.3d.tar.gz
+
+(2)进入解压目录
+$ cd proftpd-1.3.3d
+
+(3)执行配置（收集系统信息，为编译做准备），指定安装目录
+$ ./configure --prefix=/usr/local/proftpd
+
+(4)执行编译（将源代码编译成可执行文件）
+$ make
+
+(5)执行安装（将编译后可执行文件复制到相应目录）
+$ make install
+
+(6)源码包（编译）安装软件卸载
+# kill `pgrep proftpd`		# 结束相关进程
+$ rm -rf /usr/local/proftpd # 删除安装目录
+
+
+》脚本（Java、Shell）安装 -- 类 Windows 安装
+----------------------------------------------------------------
+源码包 = 软件名-版本号.打包压缩格式
+示例：webmin-1.5.30.tar.gz
+
+(1)解压源码包
+$ tar -xzvf webmin-1.5.30.tar.gz
+
+(2)进入解压目录
+$ cd  webmin-1.5.30
+
+(3)尝试编译，提示没有 configure 脚本
+
+(4)查看 README 文件 或 INSTALL 文件
+
+(5)按自述文件说明执行指定安装脚本，按提示步骤完成安装
+$ ./setup.sh
+
+(6)如果软件需要 perl 编译，需要安装 perl 后再次执行安装脚本
+
+(7)卸载时执行相应的卸载脚本 uninstall.sh 即可
+

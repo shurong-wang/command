@@ -1,0 +1,9 @@
+
+ps -ef |grep redis 						#检测后台进程是否存在
+netstat -lntp | grep 6379 				#检测6379端口是否在监听
+
+/usr/local/redis/bin/redis-server		#开启redis服务
+/usr/local/redis/bin/redis-cli shutdown #关闭redis服务
+
+/usr/local/redis/bin/redis-cli 			#进入redis终端
+

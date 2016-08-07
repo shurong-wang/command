@@ -1,0 +1,357 @@
+1. 查看当前目录下有哪些文件和目录
+$ ls        # list
+$ ls -l     # 或 ll 以列表形式显示当前目录一般文件的详细信息(不含隐藏文件)
+$ ls -a     # 显示当前目录全部文件信息，只有文件的名字(包含隐藏文件)
+$ ls -al    # all list 以列表形式显示当前目录全部的文件详细信息(包含隐藏文件)
+$ ls 目录   # 列出指定目录的文件信息
+  
+2. 查看我当前在哪个目录
+$ pwd
+
+3. 显示当前用户信息
+$ whoami        # 显示 当前正在使用系统的用户名信息
+$ who am i      # 显示 初始登录系统的用户名和登录系统时间信息
+
+4. 从普通用户切换到root用户，两种切换方式：
+$ su -         # 按提示输入密码 -- 超级管理员权限
+$ su root      # 不需要输入密码 -- 普通权限
+$ exit 		   # 退回到上一用户
+
+5. 从root用户切换到普通用户
+$ su shurong   # 从root切回普通用户
+
+6. 目录切换
+$ cd 目录名称  # 切换到指定目录
+$ cd ..		   # 切换到上级目录
+$ cd ~		   # 切换到 /home 或 /root
+$ cd /         # 切换到根目录 /
+
+7. 从桌面窗口切换为“命令行窗口”(通过超级管理员切换)
+$ init 0	# 关机 
+$ init 3	# 切换到“命令行”
+$ init 5    # 切换回“图形界面”
+$ init 6	# 重启 
+  
+8. 输出文件的信息，全部内容直接都输出
+$cat  文件
+
+9. 创建目录指令
+$ mkdir   目录   
+$ mkdir  -p  目录1/目录2/目录3   # 递归创建目录
+
+10. 修改目录的名字
+$ mv  目录1   目录2              # 把"目录1"的名字改为"目录2"的名字
+$ mv  目录/目录a   目录/目录b    # 把“目录a”改成"目录b"
+
+11. 移动操作
+$ mv  文件  目录           # 移动文件到指定的目录
+$ mv  目录  目录           # 移动目录到指定目录(包括多级目录)
+
+12. mv指令什么时候是移动，什么时候是重命名
+$ mv source target
+# target 目录不存在时，表示重命名操作
+# target 目录不存在时，表示移动到该目录下
+
+13. 删除目录
+$ rmdir   目录               # 删除单个目录(没有子级目录)
+$ rm -rf  文件名字           # force强制 recursive 递归删除
+$ rm -rf  /                  # kill  your self  [root用户可以删除更多的文件]
+$ rm -rf  shanghai/beijing   # 删除shanghai下边的beijing目录，不会删除shanghai
+
+14. 复制
+$cp   copy
+$cp  目录  地址  -R          # 复制目录需要加上固定参数-R，目录会进行递归复制
+$cp  文件  目录/不存在名字   # 文件在被复制到指定目录的同时被“改名字”
+$cp  文件  新文件名字        # 复制同时并起新名字
+
+15. 查看文件内容
+$ more  文件          # 从文件内容第一行开始显示，显示内容查看的百分比
+                      # 敲回车，会逐行查看后边的内容，到最后会释放光标
+$ less  文件          # 逐行显示文件内容，通过方向键可以查看文档的各部分内容
+                      # 允许向前查看，没有百分比显示
+$ head -n  文件       # 查看文件前n行内容
+$ tail -n  文件       # 查看文件尾部n行内容
+                      # 通过"q"键释放光标
+$ wc  文件            # 计算文件内容行数、段落
+
+16. 创建新文件
+$ touch  文件名		   # 创建文件
+
+17. 给文件添加内容
+$ echo 内容  >  文件    # 把指定内容输入到指定文件里边，如果文件不存在则创建
+$ echo 内容  >> 文件    # 把指定内容追加到指定文件里边，如果文件不存在则创建
+
+18. 重定向内容到一个文件
+$ cat  文件1  >  文件2   # 把文件1的内容重定向到文件2里边，文件2没有则自动创建
+$ cat  文件1  >> 文件2   # 把文件1的内容追加到文件2里边，文件2没有则自动创建
+
+19.增加用户  /etc/passwd 存放系统用户信息（组编号、家目录）
+$ useradd  用户名  # 添加用户，默认分组和家目录  
+$ useradd -g 组名 用户名 # 添加用户，设置分组[常用操作]
+$ useradd -d 家目录  用户名	# 添加用户，设置家目录（自动创建）
+$ useradd -g 组名 -d 家目录 用户名 # 添加用户，设置分组和家目录
+
+20. 创建组 (可以设置组本身编号)
+$ groupadd 组名          # 新建分组，编号自增[常用操作]
+$ groupadd -g 编号 组名  # 新建分组，指定组编号
+
+21. 修改用户信息(组编号、家目录、用户名)
+$ usermod -g 组名 用户名		# 修改用户的组编号
+$ usermod -d  家目录  用户名 # 修改用户的家目录，passwd文件会修改，需手动创建家目录
+$ usermod -u 编号  用户名    # 修改用户编号
+$ usermod -l 新名  原名 # 修改用户名
+
+22. 修改组 (组编号、组名)
+$ groupmod -g 组编号  组名	 # 修改组编号
+$ groupmod -n 新组名  旧组名  # 修改组名字
+
+23. 删除用户(用户信息、家目录)
+$ userdel 用户
+$ userdel -r 用户  # 删除用户，删除其“家目录”
+
+24. 删除组
+$ groupdel  组名   # 如果分组下有用户不允许删除
+
+25. 查看一个指令在使用的时候有何种参数可以设置
+$ useradd --help     命令  --help  
+
+26. 给一个用户设置密码(可以让其登录系统)
+# 方法一：根据提示输入两遍密码
+$ passwd  用户名
+# 方法二：不需要交互，直接赋予用户密码
+$ echo 123456 | passwd --stdin user1 &> /dev/null
+
+27. 查看命令具体参数设置
+$ man  命令       # 前后反复查看命令的使用参数
+
+28. 给文件进行权限设置[相对方式]
+$ chmod u+x  文件	   # 为 [主人] 设置文件 [执行] 权限
+$ chmod g+x  文件      # 为 [同组用户] 设置文件 [执行] 权限
+$ chmod o+x  文件	   # 为 [其他组用户] 设置文件 [执行] 权限
+$ chmod o+w,o+x  文件  # 为 [其他组用户] 设置文件 [写、执行] 权限
+$ chmod a+w,a+x  文件  # 为 [所有用户] 设置文件 [写、执行] 权限
+
+$ chmod u-r  文件      # 取消 [主人] 文件 [读] 权限
+$ chmod g-w,g-x  文件  # 取消 [同组用户] 文件 [写、执行] 权限
+$ chmod o-r,o-x  文件  # 取消 [其他组用户] 文件 [读、执行] 权限
+
+$ chmod g+rx,o+wx  文件 # 为 [同组用户] 设置文件 [读、执行] 权限，[其他组用户] 设置文件 [写、执行] 权限
+$ chmod u-rwx,g-rw 文件	# 取消 [主人] 文件 [所有] 权限，取消 [同组用户] 文件 [写、执行] 权限
+
+29. 文件权限说明
+   r--  文件只有可读权限 [可以看到原内容，可以写，不会覆盖，强行保存]
+   -w-  文件只有可写权限 [不可以看到原内容，可以写，覆盖写，强行保存]
+   --x  文件有可执行权限 [不可以看到原内容，可以写，覆盖写，强行保存]
+
+30. 目录权限说明
+   r--  目录有可读权限 [允许查看文件列表，不允许进入目录，不允许增删文件]
+   -w-  目录有写权限 [不允许查看文件列表，允许增删文件，不允许进入目录]
+   --x  目录有执行 [不允许查看文件列表，不允许增删文件，允许进入目录]
+
+31. 非文件所有者对文件的操作
+   r--  操作只读文件 [可以阅读，可以写，强行保存，文件的主人和组被更改]
+   -w-  操作只写权限 [不能读，可以强行覆盖写，文件的主人和组被更改]
+   --x  操作执行权限 [可以进入目录]
+
+32. 数字[绝对方式]设置文件权限
+	
+    二进制---十进制---字母--权限
+
+    100----4----r----读
+    010----2----w----写
+    001----1----x----执行
+
+	每个十进制数字对应的权限组合：
+	1	--x	  执行		  001
+	2	-w-	  写		  010
+	3	-wx	  写+执行	  011
+	4	r--	  读		  100
+	5	r-x	  读+执行	  101
+	6	rw-	  读+写		  110
+	7	rwx	  读+写+执行  111
+
+$ chmod 777  文件   #  [主人、同组用户、其他组用户][读、写、执行]
+$ chmod 655  文件   #  [主人][读、写]，[同组用户、其他组用户][读、执行]
+$ chmod 634  文件   #  [主人][读、写]，[同组用户][写、执行]，[其他组用户][只读] 
+$ chmod 444  文件   #  [主人、同组用户、其他组用户][只读]
+
+33. 给目录递归设置权限
+$ chmod 755  目录  -R	# -R参数可以递归目录进行权限设置
+
+34. 文件或目录的各种权限对超级管理员root没有影响
+
+35. 在指定文件里边查找我们需要的内容
+$ grep 内容 文件    
+$ grep -v "^#" /etc/inittab		# 查看配置文件，忽略注释
+
+36. 查看“任务管理器”
+$ top
+
+37. 查看内存信息
+$ free -m         # 以M兆为单位显示内存大小使用情况
+
+38. 查看文件或目录占用大小的情况
+$ du -h 目标      # 有最小单元限制（4k）  1字节
+
+39. 文件查找：find  目录  选项  选项值
+$ find  /   -name  xxx      # 在根目录查找文件 xxx
+$ find  ./  -name  '*.php'	# 模糊查找，文件后缀为 .php
+$ find  ./  -size  大小		# 根据文件的大小来查找
+# 单位：数字1 512字节、100c  1字节单位、100k  1024字节单位
+$ find ./  -size  +100c     # 查找文件大小大于100字节的
+$ find ./  -size  -100c     # 查找大小小于100字节的文件
+$ find ./  -size  4         # 查找大小等于2048字节的文件
+$ find ./  -size  2k        # 查找大小等于2048字节的文件
+
+$ find ./  -maxdepth 3      # 查找文件，目录最深3层
+$ find ./  -mindepth 2      # 查找文件，目录最浅2层 
+
+$ find  ./  -type  f        # 通过类型查找，查找文件类型
+$ find  ./  -type  d        # 通过类型查找，查找目录类型
+
+$ find  ./  -user 用户名    # 查找文件主人为XX的文件
+$ find  ./  -uid  用户编号  # 查找文件主人编号为XX的文件
+$ find  ./  -nouser         # 查找没有主人的文件（网络下载的文件）
+$ find  ./  -perm  权限764  # 根据文件的权限进行查找
+
+40. 设置软连接
+$ ln -s  源文件  链接文件
+$ ln -s  /home/shurong/index.php  /var/index.html
+   
+40. 设置硬连接
+$ ln -s  源文件  链接文件
+$ ln -d  /home/shurong/index.php  /var/index.shtml  
+
+41. 查看文件索引号码
+$ ls -li  
+
+42. 生成任务调度指令
+$ crontab  -e    # 编辑任务调度指令
+$ crontab  -l    # 查看任务调度指令设置
+# 示例：在每月一号 22:30 执行具体任务指令：
+$ 30   22    1    *      *      /home/shurong/plan.sh
+  #分  #时  #日   #月份  #星期  #具体命令
+  #注意：0代表周日
+
+43. 设置系统时间
+$ date  # 查看系统时间
+$ date -s "2015-04-04 17:19:40"	# 设置系统时间
+
+44. 设置文件主人
+$ chown  主人  文件名
+
+45. 给文件设置组
+$ chgrp  组  文件名
+$ chown  .组  文件名
+
+46. 同时给文件目录设置主人和组
+$ chown  主人.组  文件名
+$ chown  主人.组  目录  -R   # 递归设置目录主人和组的信息，对所有子集目录文件有效
+
+47. 实现设备挂载、卸载
+$ mount  /dev/cdrom    /mtn/cdrom   # 挂载光驱
+$ mount  /dev/hda1     /mtn/upan    # 挂载u盘
+$ mount  /dev/sda3     /mtn/pan3    # 挂载硬盘
+
+$ umount  设备 或者 挂载点 
+$ umount  /dev/cdrom		# 卸载设备 
+$ umount  /mtn/cdrom		# 卸载挂载点 
+
+48. rpm 指令安装软件
+$ rpm -ivh 软件文件名(vsftpd-2.0.5-16.el5_4.1.i386.rpm)  # 安装软件
+$ rpm -e 软件名(vsftpd)	 # 卸载软件
+$ rpm -q 软件名			 # query 检查是否安装该软件
+$ rpm -qa                # 查看系统全部安装软件情况
+$ rpm -qa | grep  ftp    # 在全部安装软件里边，通过模糊方式查找是否有ftp这个软件
+$ rpm -u 文件名          # 对软件升级
+
+49. 让 vsftpd 软件运行
+$ service vsftpd start
+
+50. 服务器重新启动
+$ halt				# 关机
+$ poweroff			# 关机
+$ reboot			# 重新启动
+
+$ shutdown -h now	# 关机
+$ shutdown -r now	# 重新启动
+
+51. apache、mysql 开机自动启动
+# 修改配置文件：
+$ vi /etc/rc.d/rc.local
+
+# 在文件中增加启动 apache 的命令：
+/usr/local/http2/bin/apachectl start 
+/usr/local/mysql/bin/mysqld_safe --user=mysql &
+
+52. 网络设置
+# 启动网卡：ifup eth0
+# 关闭防火墙：service iptables stop
+# 重启网卡：service network restart
+
+53. 查看、设置服务在指定运行级别的启用状态
+$ chkconfig --list iptables				# 查看 iptables 服务运行级别
+$ chkconfig iptables on					# 设置 iptables 服务在运行级别 2 3 4 5 启动
+$ chkconfig --levels 235 iptables on	# 设置 iptables 服务在运行级别 2 3 5 启动
+$ ntsysv --level 3                      # 菜单查看运行级别 3 下服务的启动状态，通过space键设置
+
+54. 查看系统启动信息
+$ dmesg | grep eth0 # 查看网卡是否可识别
+
+55. 查看服务运行日志
+$ grep iptables /var/log/messages # 查看 iptables 服务运信息
+
+56. 启动 iptables 服务进程，并设置优先级为 -5 
+$ nice --5 /etc/rc.d/init.d/iptables start
+# 默认为 0 ，值越小优先级越高
+# 修改已启动进程的优先级：renice 优先级 父进程ID
+
+57. 查看指定进程信息
+$ ps -le | grep iptables	# 查看 iptables 服务进程详情
+$ pgrep iptables	# 查看 iptables 服务子进程列表
+
+58. 重启指定进程
+$ kill -1 父进程ID	
+$ kill -1 `pgrep iptables`	# 重启 iptables 服务进程，前提：iptables 服务进程已启动
+
+59. 关闭指定进程
+$ pkill iptables  # 关闭 iptables 服务进程
+
+60.修改 samba 配置文件，添加 samba 用户，设置用户目录权限
+$ vim /etc/samba/smb.conf
+
+# 在配置文件中添加：
+[web]
+        path = /usr/local/http2/htdocs
+        browseable = yes
+        writeable = yes
+
+# 保存退出后执行以下命令：
+$ smbpasswd -a shurong
+$ setfacl -m u:shurong:rwx -R /usr/local/http2/htdocs/
+$ setfacl -m d:u:shurong:rwx -R /usr/local/http2/htdocs/
+
+61.查看服务占用哪个端口
+$ netstat -nlap | grep redis
+
+62.查看端口被哪个服务占用
+$ netstat -nlap | grep :80
+$ lsof -i :80
+
+63.分段提取命令
+$ cat /etc/passwd | grep bash | awk -F: '{print $1}'	#提取用户名
+$ awk -F: '$3==0 {print $1}' /etc/passwd				#提取用户 ID 为 0 的 用户名 
+$ awk -F: 'length($2)==0 {print $1}' /etc/shadow		#提取密码为空的用户名 
+
+----------------------------------------------------
+# 启动 FTP 服务：
+$ service vsftpd start
+
+# 检查 Apache 配置文件语法 （注意 使用绝对路径）:
+$ /usr/local/http2/bin/httpd -t 
+
+# 启动 Apache （注意 使用绝对路径）:
+$ /usr/local/http2/bin/apachectl start 
+
+# 登录 Mysql （注意 使用绝对路径）:
+$ /usr/local/mysql/bin/mysql –u root -p

@@ -1,0 +1,26 @@
+
+root登陆Ubuntu没有声音解决：
+
+-----------------------------------------------------------------------------------
+打开终端，执行命令：sudo gedit /etc/modprobe.d/alsa-base.conf
+在弹出的窗口，最后一行加入并保存： options snd-hda-intel model=auto
+重启声卡模块：sudo /sbin/alsa force-reload
+输入命令两次，执行两次声卡重启
+
+-----------------------------------------------------------------------------------
+
+一、修改自动启动：
+编辑 sudo gedit /etc/default/pulseaudio.conf,将下面两项改为和下面的一样
+PULSEAUDIO_SYSTEM_START=1
+DISALLOW_MODULE_LOADING=0
+
+二、添加权限：
+将root分别添加到pulse组和pulse-access组，不添加的话是没有权限访问声音设备的
+gpasswd -a root pulse
+gpasswd -a root pulse-access
+
+命令启动 pulseaudio
+pulseaudio --start --log-target=syslog
+
+可以在 /root/.profile 文件最后加上
+pulseaudio --start --log-target=syslog

@@ -1,0 +1,5 @@
+
+用 Ubuntu 软件中心安装的 chromium 和下载安装的 chrome 有点不一样，安装目录没有在 opt 目录下：
+在 /usr/share/applications/chromium-browser.desktop 的快捷图标上右键，点击属性，把命令属性修改为：
+chromium-browser %U -user-data-dir
+

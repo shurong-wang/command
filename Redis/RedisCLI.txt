@@ -1,0 +1,138 @@
+
+
+1. KEYS、RENAME、DEL、EXISTS、MOVE、RENAMENX:
+---------------------------------------------------------------------------------
+# 在Shell命令行下启动Redis客户端工具
+redis-cli
+
+# 清空当前选择的数据库
+redis 127.0.0.1:6379> flushdb
+
+# 添加 String 类型数据
+redis 127.0.0.1:6379> set key1 200
+redis 127.0.0.1:6379> set key2 "hello"
+
+# 添加 Set 类型数据
+redis 127.0.0.1:6379> sadd set1 10 20 30
+
+# 添加 Hash 类型数据
+redis 127.0.0.1:6379> hset user:13 username "stephen"
+
+# 根据参数中的模式，获取当前数据库中符合该模式的所有key
+redis 127.0.0.1:6379> keys my*
+
+# 删除了两个 Key
+redis 127.0.0.1:6379> del key1 key2
+
+# 查看一下刚刚删除的 Key 是否还存在
+redis 127.0.0.1:6379> exists key1
+
+# 查看一下没有删除的 Key
+redis 127.0.0.1:6379> exists set1
+
+# 将当前数据库中的 set1 键移入到编号为 1 的数据库中
+redis 127.0.0.1:6379> move set1 1
+
+# 打开编号为 1 的数据库
+redis 127.0.0.1:6379> select 1
+
+# 查看一下刚刚移动过来的Key是否存在
+redis 127.0.0.1:6379[1]> exists set1
+
+# 在重新打开编号为 0 的缺省数据库
+redis 127.0.0.1:6379[1]> select 0
+
+# 查看一下刚刚移走的 Key 是否已经不存在
+redis 127.0.0.1:6379> exists set1
+
+# 准备新的测试数据    
+redis 127.0.0.1:6379> set key1 "hello"
+
+# 将 key1 改名为 key11
+redis 127.0.0.1:6379> rename key1 key11
+
+# 由于 key1 已经被重新命名，再次获取将返回 nil
+redis 127.0.0.1:6379> get key1
+
+# 通过新的键名获取
+redis 127.0.0.1:6379> get key11
+
+# 由于key1已经不存在了，会返回错误信息
+redis 127.0.0.1:6379> rename key1 key11
+
+# 为 renamenx 准备测试 Key
+redis 127.0.0.1:6379> set oldkey "hello"
+
+redis 127.0.0.1:6379> set newkey "world"
+
+# 由于 newkey 已经存在，因此该命令未能成功执行
+redis 127.0.0.1:6379> renamenx oldkey newkey
+
+# 查看 newkey 的值，发现没有被 renamenx 覆盖
+redis 127.0.0.1:6379> get newkey
+"world"
+    
+2. PERSIST、EXPIRE、EXPIREAT、TTL:
+--------------------------------------------------------------------------------- 
+# 为后面的示例准备的测试数据
+redis 127.0.0.1:6379> set key1 "hello"
+
+# 将该键的超时设置为 100 秒
+redis 127.0.0.1:6379> expire key1 100
+
+# 通过 ttl 命令查看一下还剩下多少秒
+redis 127.0.0.1:6379> ttl key1
+
+# 立刻执行 persist 命令，该存在超时的键变成持久化的键，即将该 Key 的超时去掉
+redis 127.0.0.1:6379> persist key1
+
+# ttl 返回值告诉我们，该键已经没有超时了
+redis 127.0.0.1:6379> ttl key1
+
+# 为后面的 expire 命令准备数据
+redis 127.0.0.1:6379> del key1
+
+redis 127.0.0.1:6379> set key1 "hello"
+
+# 设置该键的超时为 100 秒
+redis 127.0.0.1:6379> expire key1 100
+
+# 用 ttl 命令看一下当前还剩下多少秒，从结果中可以看出还剩下 96 秒
+redis 127.0.0.1:6379> ttl key1
+
+# 重新更新该键的超时时间为 20 秒，从返回值可以看出该命令执行成功
+redis 127.0.0.1:6379> expire key1 20
+
+# 再用 ttl 确认一下，从结果中可以看出果然被更新了
+redis 127.0.0.1:6379> ttl key1
+
+# 立刻更新该键的值，以使其超时无效
+redis 127.0.0.1:6379> set key1 "world"
+
+# 从 ttl 的结果可以看出，在上一条修改该键的命令执行后，该键的超时也无效了
+redis 127.0.0.1:6379> ttl key1
+
+
+3. TYPE、RANDOMKEY、SORT:
+---------------------------------------------------------------------------------
+# 由于 ukey 键在数据库中不存在，因此该命令返回 none
+redis 127.0.0.1:6379> type ukey
+
+# key1 的值是字符串类型，因此返回 string
+redis 127.0.0.1:6379> type key1
+
+# 准备一个值是 set 类型的键
+redis 127.0.0.1:6379> sadd set1 100 200
+
+# set1 的键是 set 类型，因此返回 set
+redis 127.0.0.1:6379> type set1
+
+# 返回数据库中的任意键
+redis 127.0.0.1:6379> randomkey
+
+# 清空当前打开的数据库
+redis 127.0.0.1:6379> flushdb
+
+# 由于没有数据了，因此返回 nil
+redis 127.0.0.1:6379> randomkey
+

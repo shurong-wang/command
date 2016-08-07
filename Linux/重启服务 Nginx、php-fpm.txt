@@ -1,0 +1,53 @@
+
+重启 nginx、php-fpm
+==============================================================
+# 查看 nginx 配置文件
+ps aux | grep nginx
+
+# 验证 nginx 配置文件
+sudo /usr/local/nginx/sbin/nginx -t
+
+# Nginx 启动、重启、关闭
+--------------------------------------------------------------
+sudo systemctl start nginx		#启动
+sudo systemctl stop nginx 		#立即关闭
+sudo systemctl quit nginx 		#平滑退出
+sudo systemctl restart nginx 	#重新启动
+
+ps -ef | grep nginx				#查询nginx主进程号
+Kill –INT PID(进程号)			#关闭nginx服务					
+Kill –USR2 PID(进程号)			#重启nginx服务
+Kill –URS1 PID(进程号)			#重载配置文件
+
+
+# 查看是否安装 php
+dpkg -l | grep 'php'
+
+# 查看php-fpm进程数
+ps aux | grep -c php-fpm
+netstat -anpo | grep "php-cgi" | wc -l
+netstat -anop | grep "php-fpm" | wc -l
+
+
+php-fpm 进程管理
+--------------------------------------------------------------
+/usr/local/php/sbin/php-fpm							# 启动
+kill -INT `cat /usr/local/php/var/run/php-fpm.pid`	# 关闭
+kill -USR2 `cat /usr/local/php/var/run/php-fpm.pid` # 重启（一）
+
+/etc/init.d/php-fpm restart							# 重启（二）
+sudo service php-fpm restart						# 重启（三）
+
+# 重启（方法三）
+killall php-fpm
+/usr/local/php/sbin/php-fpm &
+
+
+apache 管理
+--------------------------------------------------------------
+# 重启一下 apache
+sudo systemctl restart apache2
+# 注意：
+# ubuntu15.04 采用了systemd 初始化系统
+# 要使用 systemctl 代替原来的 /etc/init.d/*** 之类的命令
+

@@ -1,0 +1,6 @@
+
+# 打开终端，su root，临时提高权限
+# 输入：add-apt-repository ppa:ubuntu-wine/ppa 添加 wine 的库
+# 输入：apt-get update 更新源，以便查找最新的软件
+# 输入：apt-get install wine1.7 安装过程中若有提示，则按Tab来移动选择确定
+# 以后如果有更新版本，那就在终端输入：sudo apt-get upgrade

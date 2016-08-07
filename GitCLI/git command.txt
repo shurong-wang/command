@@ -1,0 +1,218 @@
+=======================================================================
+	工作区		  | 	暂存区	    |		版本库		|	远程仓库
+Working Directory |	 Staging area	|	  Local repo	|	Remote repo
+-----------------------------------------------------------------------
+		|---- git add ---->|--- git commit --->|---- git push --->|
+		|------------ git commit -a  --------->|---- git push --->|
+		|<-- git checkout -|<--- git reset ----|<--- git pull ----|
+		|<--------- git reset --hard HEAD------|<--- git pull ----|
+=======================================================================
+
+
+# 设置/查看用户名、邮箱地址、差异分析工具
+git config --global user.name 'yida'
+git config --global user.email 'wangsr@edaixi.com'
+git config --global color.ui true
+git config --global merge.tool vimdiff
+git config --global branch.autosetuprebase always	# 使用git rebase让历史变得清晰（所有分支）
+git config branch.master.rebase true			# 使用git rebase让历史变得清晰（指定分支）
+git config --list
+
+
+# 初始化一个新的本地版本库，将目录中的所有文件纳入管理
+git init
+git status -s
+git add .
+git commit -m '初始化本地版本库'
+git log --oneline --5
+
+# 更美观的输出 log
+git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset' --abbrev-commit --date=relative -10
+
+# 文件对比
+git diff				# 对比工作区与暂存区
+git diff --staged		# 对比暂存区与版本库,同 git diff --cached
+git diff HEAD			# 对比工作区与版本库
+git diff da985 b325c	# 对比版本库中的两次提交
+
+
+# 解决冲突
+git pull 
+# ...
+git add filename
+git rebase --continue
+git commit -m '解决冲突'
+
+
+# 强制更新，覆盖本地修改
+git fetch --all  
+git reset --hard origin/master
+
+
+# 操作撤销 -- 没有 push 
+git checkout filename				# 撤销工作区单个文件修改
+git checkout filename1 filename2	# 撤销工作区多个文件修改
+git checkout .						# 撤销工作区的所有修改
+git reset							# 回滚缓存区提交
+git reset --soft 3ce072c72d948abfa	# 回滚到多个提交之前，但保留没有提交的改变（不回滚工作区和缓存区）
+git reset --hard HEAD				# 回滚到最近一次的提交（会回滚工作区和缓存区）
+
+
+# 操作撤销 -- 已经 push
+git revert c011eb3c20ba6fb3			# 反转提交，执行时要求工作树必须是干净的，	用一个新提交来消除一个历史提交所做的修改
+
+
+# 版本撤销
+git log
+git reset --hard e54dd31
+
+
+# 撤销 commit 注释
+git commit --amend -m "Fixes bug #42"
+
+
+# 版本恢复
+git reflog
+git reset --hard c80ae4f
+
+
+# 删除文件
+git rm filename				# 从工作区和暂存区删除
+git rm --cached filename	# 只从暂存区删除，保留工作区文件
+git commit -m '删除文件'	    # 从版本库删除
+git log --oneline --5		
+
+
+# 重命名文件
+git mv filename1 filename2
+git commit -m '重命名文件'
+
+
+# 创建新分支，检出为活动分支，在其上修改
+git checkout --track origin/feature_01
+git config branch.feature_01.rebase true 
+或
+git branch feature_01
+git checkout feature_01
+或
+git checkout -b feature_01
+git pull origin feature_01
+
+
+# 切换到 master 分支（此时不会看到 feature_01 分支的修改），在其上修改
+git checkout master
+git commit -a -m 'maser分支修改'
+
+
+# 查看远程分支
+git branch -a
+
+# 删除本地分支
+git branch -D branchname
+
+# 删除远程分支
+git push origin :branchname	# 冒号及前面的空格不能少，原理是把一个空分支push到server上，相当于删除该分支
+git push origin --delete <branchname>
+
+# 重命名分支
+git checkout master
+git branch -m b1 b2
+git checkout b2
+git push origin b2
+
+
+# 隐藏工作区
+git stash		# 暂存改动
+git stash list	# 查看暂存的改动
+git stash pop	# 释放暂存的改动
+git stash trop	# 删除暂存的改动
+
+
+# 合并 feature_01 分支到 master 分支，根据情况删除 feature_01 分支
+git merge feature_01
+git branch -d feature_01
+git branch --merged		# 显示已经全部合并到当前分支的分支
+git branch --no-merged	# 显示没有合并到当前分支的分支
+
+
+# 查看谁改错了代码
+git blame -w  # 忽略移除空白这类改动
+git blame -M  # 忽略移动文本内容这类改动
+git blame -C  # 忽略移动文本内容到其它文件这类改动
+
+
+# 查看特定成员的更新记录
+git log --author=YiDa
+
+
+# 按关键字搜索更新记录
+git log --grep="等待页面"
+
+
+# 添加忽略文件
+echo '*~' >> .gitignore
+git add .gitignore
+
+
+# 添加全局忽略文件
+git config --global core.excludesfile ~/.gitignore_global
+vim ~/.gitignore_global
+加入要忽略的文件名
+
+
+Git 使用问题
+====================================================================================================
+
+问题1：怎样设置 git 操作免输账号密码？
+----------------------------------------------------------------------------------------------------
+1.在主文件夹下创建文件 .git-credentials, 用vim编辑：
+cd ~
+touch .git-credentials
+vim .git-credentials
+
+2.在 .git-credentials 添加 https://{username}:{password}@github.com，例如：
+https://yida:pass123@github.com
+
+3. 在终端下执行命令：
+git config --global credential.helper store
+
+4. 查看到 ~/.gitconfig 文件新加入一项配置：
+[credential]
+	helper = store
+以后 git 操作就不再需要密码验证
+
+
+问题2：怎样设置 git 忽略已经被提交的文件？
+----------------------------------------------------------------------------------------------------
+1. 工作区根目录 .gitignore 文件只能忽略没有被 track 的文件，如果某些文件已经被纳入了版本管理中，则修改.gitignore是无效的。
+同理，exclude 方式做同样的事情，不同的是 .gitignore 这个文件本身会提交到版本库中，保存的是公共的需要排除的文件。
+而 .git/info/exclude 这里设置的则是你自己本地需要排除的文件。 他不会影响到其他人。也不会提交到版本库中去。
+
+2. 以上只对对尚未被 git 跟踪管理的文件有效，如果想忽略已经被 git 纳入版本库管理的文件，则需要另外的 assume-unchanged 方法。
+git update-index --assume-unchanged data/config.php			# 告诉 git 忽略对已经纳入版本管理的文件 data/config.php 的修改
+															# git 会一直忽略此文件直到重新告诉 git 可以再次跟踪此文件
+例如：
+git update-index --assume-unchanged ./data/config.php						# 告诉 git 忽略跟踪 data/config.php
+git update-index --assume-unchanged ./framework/view/wap/base/foot.html   	# 告诉 git 忽略跟踪 foot.html
+git update-index --assume-unchanged jsapi_ticket.json   					# 告诉 git 忽略跟踪 jsapi_ticket.json
+
+git update-index --no-assume-unchanged ./data/config.php  					# 告诉 git 恢复跟踪 config.php 
+git update-index --no-assume-unchanged ./framework/view/wap/base/foot.html  # 告诉 git 恢复跟踪 foot.html
+git ls-files -v | grep -e "^[hsmrck]"										# 查看当前被忽略的、已经纳入版本库管理的文件
+
+
+问题3：  如何把在本地 A 分支上的一个commit（7b31b7）放到本地 B 分支上？ 
+----------------------------------------------------------------------------------------------------
+git checkout B
+git cherry-pick 7b31b7
+
+
+问题4. 查看谁弄乱了文件 index.php 的代码？
+----------------------------------------------------------------------------------------------------
+git blame index.php
+
+
+
+
+
+

@@ -1,0 +1,19 @@
+
+# 查看80端口
+netstat -nap|grep ":80"
+lsof -i:80
+
+# 批量删除文件
+sudo find -name '*log*' | xargs sudo rm -rf
+
+# 批量查找文件
+sudo find -name '*rb' | xargs grep 'bind_user'
+
+# 使修改 hosts 后生效:
+sudo apt-get install nscd
+sudo systemctl restart NetworkManager
+
+# 代理模式启动 chromium
+chromium-browser --proxy-server=socks5://127.0.0.1:1080
+
+

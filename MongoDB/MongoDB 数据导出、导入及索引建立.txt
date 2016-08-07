@@ -1,0 +1,18 @@
+MongoDB数据导出、导入及索引建立
+
+1. 数据导出 —— 每个表一个文件：
+# mongoexport --db 数据库名 --collection 表名 --out 输出文件名
+
+2. 数据导入 —— 每个表一个文件：
+# mongoimport --db 数据库名 --collection 表名 --file 输入文件名
+
+3. 数据备份：
+# mongodump -h 主机名 -d 数据库名 -o 备份的数据存放位置
+
+4. 数据恢复：
+# mongorestore -h 主机名 -d 数据库名 --directoryperdb 备份的数据存放位置
+
+5. 建立索引：（用dump/restore方式恢复数据不用重新建立索引，export/import方式需要重新建立索引）
+# use mydb
+# db.myCt.ensureIndex({"股票代码": 1, "lastChange": -1}) //这个索引必须建，两个参量的顺序不能错
+# exit

@@ -1,0 +1,18 @@
+#!/bin/sh
+# "if ... else" usage
+# Usuing this program to show your system's services.
+echo "Now, the web services of this Linux system will be detect..."
+echo
+
+# Detect web service 
+	web=`/usr/bin/pgrep httpd`
+	if [ "$web" = "" ]
+	then
+		echo "The Web service is NOT running."
+		/usr/local/http2/bin/apachectl start
+	else
+
+		
+		echo "The Web service is running."
+	fi
+	
