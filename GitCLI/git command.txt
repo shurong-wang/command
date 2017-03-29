@@ -138,7 +138,7 @@ git branch --no-merged	# 显示没有合并到当前分支的分支
 git stash						# 暂存改动（默认备注）
 git stash save "message ..."	# 暂存改动，自定义备注
 git stash list					# 查看暂存的改动列表
-git stash apply stash@{1}		# 释放指定暂存项
+git stash pop --index stash@{0} # 释放指定暂存项
 git stash pop					# 释放全部暂存的改动
 git stash drop					# 删除暂存的改动
 
