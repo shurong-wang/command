@@ -170,10 +170,9 @@ git push origin :refs/tags/v0.9 	# 从远程删除 tag
 
 # 基于某个 tag 创建新分支
 # 假设在你的主分支上有一个tag为v1.0,主分支的名字为master:
-1. git origin fetch 			# 获得最新代码
-2. git branch newbranch v1.0 	# 以 tag v1.0 创建新的分支 newbranch
-3. git checkout newbranch 		# 切换到分支 newbranch
-4. git push origin newbranch    # 把本地 newbranch 分支提交到远程仓库
+1. git branch newbranch v1.0 	# 以 tag v1.0 创建新的分支 newbranch
+2. git checkout newbranch 		# 切换到分支 newbranch
+3. git push origin newbranch    # 把本地 newbranch 分支提交到远程仓库
 
 
 # 添加忽略文件
