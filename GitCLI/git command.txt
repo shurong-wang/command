@@ -5,7 +5,7 @@ Working Directory |	 Staging area	|	  Local repo	|	Remote repo
 		|---- git add ---->|--- git commit --->|---- git push --->|
 		|------------ git commit -a  --------->|---- git push --->|
 		|<-- git checkout -|<--- git reset ----|<--- git pull ----|
-		|<--------- git reset --hard HEAD------|<--- git pull ----|
+		|<--------- git reset --hard HEAD -----|<--- git pull ----|
 =======================================================================
 
 
@@ -24,6 +24,8 @@ git config --global branch.autosetuprebase always	# rebase 让历史变得清晰
 git config branch.master.rebase true				# rebase让历史变得清晰（指定分支）
 git config --list
 
+# 设置 git 大小写敏感
+git config core.ignorecase false
 
 # 初始化一个新的本地版本库，将目录中的所有文件纳入管理
 git init
