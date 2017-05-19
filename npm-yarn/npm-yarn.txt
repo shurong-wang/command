@@ -1,0 +1,75 @@
+
+# 检查依赖包最新版本
+# npm outdated -g
+npm outdated
+yarn outdated
+
+# 更新依赖包到最新版本
+-------------------------------------------------------------
+# npm update -g
+npm update
+yarn upgrade
+
+-------------------------------------------------------------
+
+# 锁定依赖包版本号 -- 生成 npm-shrinkwrap.json 文件
+npm shrinkwrap
+yarn generate-lock-entry
+yarn install
+
+-------------------------------------------------------------
+
+# 安装指定版本依赖包
+npm install react-native-picker@4.0.10 --save
+yarn add react-native-picker@4.0.10 --save
+
+-------------------------------------------------------------
+
+# 固定依赖包版本号 -- 修改 package.json 文件
+# npm config set save-prefix="~"
+npm config set save-exact true
+
+# 线上环境更新依赖包 -- 仅安装 dependencies 里面的包
+npm install --production
+
+-------------------------------------------------------------
+
+# npm install
+yarn install
+
+# npm install --save lodash@4.17.2
+yarn add lodash@4.17.2
+
+# npm install --save-dev lodash@4.17.2
+yarn add lodash@4.17.2 --dev
+
+# npm install --global lodash@4.17.2
+yarn global add lodash@4.17.2
+
+# npm uninstall --save lodash
+yarn remove lodash
+
+# npm uninstall --save-dev lodash
+yarn remove lodash
+
+# npm update --save
+yarn upgrade
+
+-------------------------------------------------------------
+
+rm -rf node_modules/react
+rm -rf node_modules/react-addons-update
+rm -rf node_modules/react-native
+
+npm install --save react@15.3.2
+npm install --save react-addons-update@15.3.2
+npm install --save react-native@0.36.1
+
+-------------------------------------------------------------
+
+# 升级全局依赖包到最新版本
+npm update yarn -g
+
+-------------------------------------------------------------
+
+
