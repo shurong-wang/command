@@ -21,8 +21,11 @@ git config --global user.email '442570303@qq.com'
 git config --global color.ui true
 git config --global merge.tool vimdiff
 git config --global branch.autosetuprebase always	# rebase 让历史变得清晰（所有分支）
-git config branch.master.rebase true				# rebase让历史变得清晰（指定分支）
+git config branch.master.rebase true				# rebase 让历史变得清晰（指定分支）
 git config --list
+
+# 禁止终端显示中文文件名为 \xxx\xxx 形式 
+git config --global core.quotepath false
 
 # 设置 git 大小写敏感
 git config core.ignorecase false
@@ -45,7 +48,7 @@ git diff da985 b325c	# 对比版本库中的两次提交
 
 
 # 解决冲突
-git pull 
+git pull
 # ...
 git add filename
 git rebase --continue
@@ -53,11 +56,11 @@ git commit -m '解决冲突'
 
 
 # 强制更新，覆盖本地修改
-git fetch --all  
+git fetch --all
 git reset --hard origin/master
 
 
-# 操作撤销 -- 没有 push 
+# 操作撤销 -- 没有 push
 git checkout filename				# 撤销工作区单个文件修改
 git checkout filename1 filename2	# 撤销工作区多个文件修改
 git checkout .						# 撤销工作区的所有修改
@@ -88,7 +91,7 @@ git reset --hard c80ae4f
 git rm filename				# 从工作区和暂存区删除
 git rm --cached filename	# 只从暂存区删除，保留工作区文件
 git commit -m '删除文件'	    # 从版本库删除
-git log --oneline --5		
+git log --oneline --5
 
 
 # 重命名文件
@@ -98,7 +101,7 @@ git commit -m '重命名文件'
 
 # 创建新分支，检出为活动分支，在其上修改
 git checkout --track origin/feature_01
-git config branch.feature_01.rebase true 
+git config branch.feature_01.rebase true
 或
 git branch feature_01
 git checkout feature_01
@@ -220,11 +223,11 @@ git config --global credential.helper store
 例如：
 git update-index --assume-unchanged ./data/config.php		# 告诉 git 忽略跟踪 data/config.php
 
-git update-index --no-assume-unchanged ./data/config.php  	# 告诉 git 恢复跟踪 config.php 
+git update-index --no-assume-unchanged ./data/config.php  	# 告诉 git 恢复跟踪 config.php
 git ls-files -v | grep -e "^[hsmrck]"						# 查看当前被忽略的、已经纳入版本库管理的文件
 
 
-问题3：  如何把在本地 A 分支上的一个commit（7b31b7）放到本地 B 分支上？ 
+问题3：  如何把在本地 A 分支上的一个commit（7b31b7）放到本地 B 分支上？
 ----------------------------------------------------------------------------------------------------
 git checkout B
 git cherry-pick 7b31b7
@@ -242,7 +245,3 @@ git reflog 	# 查看该所有操作日志 -- 例如,丢失的提交信息如下:
 # 4bc50d4 HEAD@{24}: rebase: 修改开户状态相关
 
 git branch recoverBranch 4bc50d4	# 在丢失的 commit(4bc50d4) 上创建一个新分支, 即可恢复此次提交
-
-
-
-
