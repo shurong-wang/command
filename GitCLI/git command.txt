@@ -24,7 +24,7 @@ git config --global branch.autosetuprebase always	# rebase 让历史变得清晰
 git config branch.master.rebase true				# rebase 让历史变得清晰（指定分支）
 git config --list
 
-# 禁止终端显示中文文件名为 \xxx\xxx 形式 
+# 禁止终端显示中文文件名为 \xxx\xxx 形式
 git config --global core.quotepath false
 
 # 设置 git 大小写敏感
@@ -214,17 +214,10 @@ git config --global credential.helper store
 
 
 问题2：怎样设置 git 忽略已经被提交的文件？
----------------------------------------------------------------------------------------------------------------------
-1.（只对尚未被 git 跟踪管理的文件有效）工作区根目录 .gitignore 文件只能忽略没有被 track 的文件，如果某些文件已经被纳入了版本管理中，则修改.gitignore是无效的。
-同理，exclude 方式做同样的事情，不同的是 .gitignore 这个文件本身会提交到版本库中，保存的是公共的需要排除的文件。
-而 .git/info/exclude 这里设置的则是你自己本地需要排除的文件。 他不会影响到其他人。也不会提交到版本库中去。
-
-2. 想忽略已经被 git 纳入版本库管理的文件，则需要另外的 assume-unchanged 方法。
-例如：
-git update-index --assume-unchanged ./data/config.php		# 告诉 git 忽略跟踪 data/config.php
-
-git update-index --no-assume-unchanged ./data/config.php  	# 告诉 git 恢复跟踪 config.php
-git ls-files -v | grep -e "^[hsmrck]"						# 查看当前被忽略的、已经纳入版本库管理的文件
+----------------------------------------------------------------------------------------------------
+git update-index --assume-unchanged .ftpconfig		# 忽略跟踪 .ftpconfig
+git update-index --no-assume-unchanged .ftpconfig  	# 恢复跟踪 .ftpconfig
+git ls-files -v | grep -e "^[hsmrck]"				# 查看当前被忽略、已经纳入版本库管理的文件
 
 
 问题3：  如何把在本地 A 分支上的一个commit（7b31b7）放到本地 B 分支上？
