@@ -2,18 +2,21 @@
 # 检查依赖包最新版本
 # npm outdated -g
 npm outdated
+
 yarn outdated
 
 # 更新依赖包到最新版本
 -------------------------------------------------------------
 # npm update -g
 npm update
+
 yarn upgrade
 
 -------------------------------------------------------------
 
 # 锁定依赖包版本号 -- 生成 npm-shrinkwrap.json 文件
 npm shrinkwrap
+
 yarn generate-lock-entry
 yarn install
 
@@ -21,6 +24,7 @@ yarn install
 
 # 安装指定版本依赖包
 npm install react-native-picker@4.0.10 --save
+
 yarn add react-native-picker@4.0.10 --save
 
 -------------------------------------------------------------
@@ -71,5 +75,3 @@ npm install --save react-native@0.36.1
 npm update yarn -g
 
 -------------------------------------------------------------
-
-

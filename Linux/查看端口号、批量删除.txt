@@ -3,6 +3,10 @@
 netstat -nap|grep ":80"
 lsof -i:80
 
+# 释放端口：
+kill `lsof -t -i:3000`
+# kill -9 $(lsof -i:3000 |awk '{print $2}' | tail -n 2)
+
 # 批量删除文件
 sudo find -name '*log*' | xargs sudo rm -rf
 
@@ -15,5 +19,3 @@ sudo systemctl restart NetworkManager
 
 # 代理模式启动 chromium
 chromium-browser --proxy-server=socks5://127.0.0.1:1080
-
-
