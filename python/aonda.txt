@@ -1,0 +1,25 @@
+conda
+---
+# 查看 python 环境列表
+conda info --envs
+
+# 创建一个 python3 环境，命名为 py3
+conda create -n py3 python=3
+
+# 激活特定 py3 环境
+source activate py3
+
+# 查看 python 版本
+python --version
+
+# 查看环境中包的列表
+conda list
+
+# 在 py3 环境安装 jupyter
+conda install -n py3 jupyter
+
+# 注销掉当前环境，恢复之前环境状态
+source deactivate
+
+# 移除 py3 环境
+conda remove -n py3 --all
