@@ -1,16 +1,11 @@
 
 # 检查依赖包最新版本
-# npm outdated -g
-npm outdated
-
-yarn outdated
+# npm outdated [-g]
+yarn [global] outdated
 
 # 更新依赖包到最新版本
--------------------------------------------------------------
-# npm update -g
-npm update
-
-yarn upgrade
+# npm update [-g]
+yarn [global] upgrade
 
 -------------------------------------------------------------
 
@@ -24,7 +19,6 @@ yarn install
 
 # 安装指定版本依赖包
 npm install react-native-picker@4.0.10 --save
-
 yarn add react-native-picker@4.0.10 --save
 
 -------------------------------------------------------------
@@ -35,6 +29,7 @@ npm config set save-exact true
 
 # 线上环境更新依赖包 -- 仅安装 dependencies 里面的包
 npm install --production
+yarn install --production
 
 -------------------------------------------------------------
 
@@ -54,24 +49,15 @@ yarn global add lodash@4.17.2
 yarn remove lodash
 
 # npm uninstall --save-dev lodash
-yarn remove lodash
+yarn remove lodash --dev
 
 # npm update --save
 yarn upgrade
 
 -------------------------------------------------------------
 
-rm -rf node_modules/react
-rm -rf node_modules/react-addons-update
-rm -rf node_modules/react-native
-
-npm install --save react@15.3.2
-npm install --save react-addons-update@15.3.2
-npm install --save react-native@0.36.1
-
--------------------------------------------------------------
-
 # 升级全局依赖包到最新版本
-npm update yarn -g
+npm update lodash -g
+yarn global upgrade webpack
 
 -------------------------------------------------------------
