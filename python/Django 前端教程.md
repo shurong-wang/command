@@ -235,7 +235,7 @@ kavout（项目容器，执行 django-admin.py startproject kavout 自动生成�
 		)
 		```
 	另外，如果使用相对路径方式加载静态资源，如 `<img src="{% static image %}loading.gif" />`，还需要在模板文件头部添加 `{% load static %}`
-	3. 如果前端发送的是 Ajax 请求，`blog/views.py` 中定义响应函数时要做响应处理，如：
+	3. 如果前端发送的是 Ajax 请求，`bviews.py` 函数需要做相应处理：
 	
 		```
 		# -*- coding: utf-8 -*-
@@ -263,6 +263,15 @@ kavout（项目容器，执行 django-admin.py startproject kavout 自动生成�
 			return render(request, 'news/hotNews.html', newsDict)
 		```
 
+		为了防止 CSRF 攻击，前端发送 Ajax 最好做以下设置：
+	
+		```
+		$.ajaxSetup({
+			// 使用了模板变量，不能写在 js 文件中，要直接写在模板文件中
+		    data: {csrfmiddlewaretoken: '{{ csrf_token }}' },
+		});
+		```
+		
 ###4. DTL 模板标签
 DTL(Django template language) 是 Django 默认的模板语言，DTL 常用模板标签示例：
 
