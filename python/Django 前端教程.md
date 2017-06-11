@@ -84,7 +84,7 @@ kavout（项目容器，执行 django-admin.py startproject kavout 自动生成�
 
 	└── kavout（项目管理目录，与项目容器同时生成且同名。新手易误认为一个应用，为什么不叫 config !-_-）
 		   ├── __init__.py（默认空文件，声明所在目录 kavout 为 Python 模块）
-		   ├── settings.py（项目配置文件，可以配置：路径、应用、模板、认证、数据库、中间件、时区、语言等）
+		   ├── settings.py（项目配置文件，可以配置：路径、应用、模板、缓存、数据库、时区、语言等）
 		   ├── settings.dev.py（为开发环境添加单独的配置文件，方便本地调试）
 		   ├── urls.py（应用路由配置，在这里配置 URL 正则，将 URL 请求分发到 Views）
 		   ├── wsgi.py（Python Web Server Gateway Interface，服务器部署相关的配置）
@@ -235,6 +235,33 @@ kavout（项目容器，执行 django-admin.py startproject kavout 自动生成�
 		)
 		```
 	另外，如果使用相对路径方式加载静态资源，如 `<img src="{% static image %}loading.gif" />`，还需要在模板文件头部添加 `{% load static %}`
+	3. 如果前端发送的是 Ajax 请求，`blog/views.py` 中定义响应函数时要做响应处理，如：
+	
+		```
+		# -*- coding: utf-8 -*-
+		from django.shortcuts import render
+		from django.http import JsonResponse
+			
+		def hotNews(request):
+		
+		    newsDict = {
+		        '1': {
+		            'id': '1',
+		            'name': '中国队 1 : 0 韩国',
+		            'content': '中国队取胜，仍保留出线可能',
+		        },
+		        '2': {
+		            'id': '2',
+		            'name': '人民的名义热播',
+		            'content': '人民的名义热播，达康书记狂圈粉',
+		        },
+		    }
+    
+			if request.is_ajax():
+				return JsonResponse(newsDict)
+			
+			return render(request, 'news/hotNews.html', newsDict)
+		```
 
 ###4. DTL 模板标签
 DTL(Django template language) 是 Django 默认的模板语言，DTL 常用模板标签示例：
@@ -244,7 +271,7 @@ DTL(Django template language) 是 Django 默认的模板语言，DTL 常用模�
 ```
 
 ```
-{% url 'artical' 12 %}
+{% url 'articel' 12 %}
 ```
 
 ```
@@ -287,6 +314,10 @@ DTL(Django template language) 是 Django 默认的模板语言，DTL 常用模�
 
 ```
 {{ request.path }}?{{ request.GET.urlencode }}
+```
+
+```
+{% csrf_token %}
 ```
 
 ```
