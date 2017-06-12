@@ -292,6 +292,11 @@ kavout（项目容器，执行 django-admin.py startproject kavout 自动生成�
 
 DTL(Django template language) 是 Django 默认的模板语言，DTL 常用模板标签示例：
 
+
+```html
+{{ sum|default:'0.00' }}
+```
+
 ```html
 {% load static %}
 ```
