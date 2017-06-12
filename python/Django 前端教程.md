@@ -96,7 +96,7 @@ kavout（项目容器，执行 django-admin.py startproject kavout 自动生成�
 		    	  ├── __init__.py（声明所在目录 migrations 为 Python 模块）
 		    	   
 		   └── templates（放置 blog 应用的模板文件）
-		   	     └── blog（这里要额外加一级目录，否则 Django 可能会弄混其他应用下的 index.html 模板 !-_-）
+		   	     └── blog（额外加一级目录，否则 Django 傻傻分不清同名模板应该去哪个应用去渲染 !-_-）
 		   		     ├── index.html
 		   		     
 		   ├── __init__.py（声明所在目录 blog 为 Python 模块）
@@ -117,7 +117,7 @@ kavout（项目容器，执行 django-admin.py startproject kavout 自动生成�
 	      
    ├── db.sqlite3（数据文件，执行 python manage.py migrate 自动生成）
    ├── manage.py（Django 项目的命令行管理工具）
-   ├── requirements.txt（记录项目 python 依赖，相当于 package.json。新手看到 txt 很容易认为是普通文本文件 !-_-）
+   ├── requirements.txt（记录 python 依赖，相当于 package.json。新手看到 txt 很容易当做普通文本 !-_-）
    ├── README.md（可以记录项目简介、环境搭建、特别注意、版本介绍内容等）
 ```
 
@@ -292,15 +292,15 @@ kavout（项目容器，执行 django-admin.py startproject kavout 自动生成�
 
 DTL(Django template language) 是 Django 默认的模板语言，DTL 常用模板标签示例：
 
-```
+```html
 {% load static %}
 ```
 
-```
+```html
 {% url 'articel' 12 %}
 ```
 
-```
+```html
 {% if value in [10, 100, 1000] %}
    ... display 1
 {% elif value < 10 %}
@@ -310,7 +310,7 @@ DTL(Django template language) 是 Django 默认的模板语言，DTL 常用模�
 {% endif %}
 ```
 
-```
+```html
 {% for item in list reversed %}
     <li>
     	{{forloop.counter1}}
@@ -320,17 +320,17 @@ DTL(Django template language) 是 Django 默认的模板语言，DTL 常用模�
 {% endfor %}
 ```
 
-```
+```html
 {% for key, value in json.items %}
     {{ key }}: {{ value }}
 {% endfor %}
 ```
 
-```
+```html
 {{ request.user }}
 ```
 
-```
+```html
 {% if request.user.is_authenticated %}
     您好，{{ request.user.username }}！
 {% else %}
@@ -338,31 +338,31 @@ DTL(Django template language) 是 Django 默认的模板语言，DTL 常用模�
 {% endif %}
 ```
 
-```
+```html
 {{ request.path }}?{{ request.GET.urlencode }}
 ```
 
-```
+```html
 {% csrf_token %}
 ```
 
-```
+```html
 {# 模板注释 #}
 ```
 
-```
+```html
 {{ list|join:", " }}
 ```
 
-```
+```html
 {% include "nav.html" %}
 ```
 
-```
+```html
 {% block css %}{% endblock %}
 ```
 
-```
+```html
 {% extends "base.html" %} 
 ```
 
