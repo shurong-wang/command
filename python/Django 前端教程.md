@@ -119,13 +119,20 @@ kavout（项目容器，执行 django-admin.py startproject kavout 自动生成�
    ├── README.md（可以记录项目简介、环境搭建、特别注意、版本介绍内容等）
 ```
 
+<span style="color:red">**Tips：**</span><br/>
+
 其中，前端开发人员需要注意的目录文件包括：
 
 - 日常开发中，主要关心 `templates` 目录和`static` 目录下的文件即可
+
 - 搭建环境时，需要执行 `pip install -r requirements.txt` 安装项目后端依赖
+
 - 运行环境时，需要执行 `python manage.py runserver --settings=kavout.settings_dev`
+
 - 开发环境报 ***Bad Request(400)*** 错误时，在 `kavout/urls.py` 设置 `ALLOWED_HOSTS=['*']` 允许任意访问来源
+
 - 新建应用时，需要在 `kavout/settings.py` 等 *settings* 文件加入应用名；同时，在 `kavout/urls.py` 添加 URL 匹配
+
 - 添加 HTML 页面时，除了编写模板文件，还需要修改应用下的 `urls.py`、`views.py` 文件，以及项目配置目录 `kavout` 下的 `urls.py`。后面小节会具体介绍
 
 
@@ -223,54 +230,60 @@ kavout（项目容器，执行 django-admin.py startproject kavout 自动生成�
 	    url(r'^blog/', include('blog.urls')), # 注意：'blog.urls' 要加单引号
 	]
 	```
-	<span style="color:red">**Tips：**</span><br/>
-	1. 如果出现 *SyntaxError: Non-ASCII character* 错误，说明 python 文件中（包括注释）出现了汉字。
-	这时，在代码最开始位置加入 `# -*- coding: utf-8 -*-` 即可
 	
-	2. 模板加载静态资源时，可能会出现找不到情况。确定请求路径正确，并在在 `kavout/urls.py` 做额外配置：
+<span style="color:red">**Tips：**</span><br/>
 	
-		```
-		STATICFILES_DIRS = (
-		    os.path.join(BASE_DIR, "static"),
-		)
-		```
-	另外，如果使用相对路径方式加载静态资源，如 `<img src="{% static image %}loading.gif" />`，还需要在模板文件头部添加 `{% load static %}`
-	3. 如果前端发送的是 Ajax 请求，`bviews.py` 函数需要做相应处理：
+- 如果出现 *SyntaxError: Non-ASCII character* 错误，说明 python 文件中（包括注释）出现了汉字。
+这时，需要在代码最开始位置加入 `# -*- coding: utf-8 -*-`
 	
-		```
-		# -*- coding: utf-8 -*-
-		from django.shortcuts import render
-		from django.http import JsonResponse
-			
-		def hotNews(request):
-		
-		    newsDict = {
-		        '1': {
-		            'id': '1',
-		            'name': '中国队 1 : 0 韩国',
-		            'content': '中国队取胜，仍保留出线可能',
-		        },
-		        '2': {
-		            'id': '2',
-		            'name': '人民的名义热播',
-		            'content': '人民的名义热播，达康书记狂圈粉',
-		        },
-		    }
-    
-			if request.is_ajax():
-				return JsonResponse(newsDict)
-			
-			return render(request, 'news/hotNews.html', newsDict)
-		```
+	
+- 如果服务正常启动，页面仍然报 `ERR_EMPTY_RESPONSE` 错误，则可能是因为开启了翻墙工具，请尝试退出翻墙工具后重试
 
-		为了防止 CSRF 攻击，前端发送 Ajax 最好做以下设置：
+- 模板加载静态资源时，可能会出现找不到情况。确定请求路径正确，并在在 `kavout/urls.py` 做额外配置：
 	
-		```
-		$.ajaxSetup({
-			// 使用了模板变量，不能写在 js 文件中，要直接写在模板文件中
-		    data: {csrfmiddlewaretoken: '{{ csrf_token }}' },
-		});
-		```
+	```
+	STATICFILES_DIRS = (
+	    os.path.join(BASE_DIR, "static"),
+	)
+	```
+另外，如果使用 Django 相对路径方式加载静态资源，如 `<img src="{% static image %}loading.gif" />`，还需要在模板文件头部添加 `{% load static %}`
+	
+- 如果向后端发送的是 Ajax 请求，则需要在 `views.py` 函数做相应处理：
+	
+	```
+	# -*- coding: utf-8 -*-
+	from django.shortcuts import render
+	from django.http import JsonResponse
+		
+	def hotNews(request):
+	
+	    newsDict = {
+	        '1': {
+	            'id': '1',
+	            'name': '中国队 1 : 0 韩国',
+	            'content': '中国队取胜，仍保留出线可能',
+	        },
+	        '2': {
+	            'id': '2',
+	            'name': '人民的名义热播',
+	            'content': '人民的名义热播，达康书记狂圈粉',
+	        },
+	    }
+    
+		if request.is_ajax():
+			return JsonResponse(newsDict)
+		
+		return render(request, 'news/hotNews.html', newsDict)
+	```
+
+- 前端发送 Ajax 请求事，为了防止 CSRF 攻击，最好做以下设置：
+	
+	```
+	$.ajaxSetup({
+		// 使用了模板变量，不能写在 js 文件中，要直接写在模板文件中
+	    data: {csrfmiddlewaretoken: '{{ csrf_token }}' },
+	});
+	```
 		
 ###4. DTL 模板标签
 DTL(Django template language) 是 Django 默认的模板语言，DTL 常用模板标签示例：
