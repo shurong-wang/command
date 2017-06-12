@@ -25,8 +25,8 @@ kavout
 | 操作           | 命令         | 参数说明 |
 | :------------- |:-------------|:-------------|
 | 查看 Django 版本    | <i>**`django-admin.py --version`**</i> |例如：我的 Django 版本为 1.8.12|
-| 导入数据（version < 1.7.1）    | <i>**`python manage.py syncdb`**</i> | 文档声称自 1.7 版起已弃用，但我们的主站 kavout.com 的 Django 版本为 1.8.12，导入数据时仍需要使用该命令才能成功。[知道具体原因的请再此说明]|
-| 导入数据（version >= 1.7.1）   | <i>**`python manage.py makemigrations`**</i><br><i>**`python manage.py migrate`**</i>|启动项目时，可能会看到红色提醒 <small style='color:red'>You have unapplied migrations; your app may not work properly until they are applied.</small><br>按照提示，执行 <i>**`python manage.py migrate`**</i> 即可。<br>这时，会在项目根目录生成 *db.sqlite3* 数据文件，保存 Django 自带一些应用数据 |
+| 同步数据（version < 1.7.1）    | <i>**`python manage.py syncdb`**</i> | 文档声称自 1.7 版起已弃用，但我们的主站 kavout.com 的 Django 版本为 1.8.12，同步数据时仍需要使用该命令才能成功。[知道具体原因的请再此说明]|
+| 同步数据（version >= 1.7.1）   | <i>**`python manage.py makemigrations`**</i><br><i>**`python manage.py migrate`**</i>|启动项目时，可能会看到红色提醒 <small style='color:red'>You have unapplied migrations; your app may not work properly until they are applied.</small><br>按照提示，执行 <i>**`python manage.py migrate`**</i> 即可。<br>这时，会在项目根目录生成 *db.sqlite3* 数据文件，保存 Django 自带一些应用数据 |
 | 启动 Django 服务   | <i>**`python manage.py runserver`**</i> | 默认在 127.0.0.1:8000 启动，如果提示 <small style='color:red'>Error: That port is already in use.</small> 说明端口被占用。<br>可以选择在其他端口（如 8080）启动：<br><i>**`python manage.py runserver 8080`**</i>|
 | 新建一个应用（如：blog） | <i>**`python manage.py startapp blog`**</i> | 执行成功，会在项目根目录生成 blog 应用目录。blog 目录下的文件在下一小节介绍|
 
@@ -34,7 +34,7 @@ kavout
 使用 *python manage.py* 系列命令时，通常会将具体参数写入项目配置目录下的单独配置文件，如 *`kavout/settings_dev.py`*。<br>
 然后，通过连接 *`--settings=kavout.settings_dev`* 执行。以我们 kavout.com 开发环境为例：
 
-- 导入数据：<i>**`python manage.py syncdb --settings=kavout.settings_dev`**</i>
+- 同步数据：<i>**`python manage.py syncdb --settings=kavout.settings_dev`**</i>
 - 启动服务：<i>**`python manage.py runserver --settings=kavout.settings_dev`**</i><br>
 
 
