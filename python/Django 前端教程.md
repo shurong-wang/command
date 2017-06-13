@@ -390,7 +390,7 @@ DTL(Django template language) 是 Django 默认的模板语言，DTL 常用模�
 	`python --version`
 
 - 查看 py3 环境已安装的依赖：
-	`conda list`
+	`conda list -n py3`
 
 - 在 py3 环境安装所需依赖，如 Django 1.8.2：
 	`conda install -n py3 Django=1.8.2`
