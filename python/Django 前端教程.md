@@ -401,16 +401,16 @@ DTL(Django template language) 是 Django 默认的模板语言，DTL 常用模�
 - 查看 python 版本：
 	`python --version`
 
-- 查看 py3 已安装的 packages：
+- 查看 kavenv 已安装的 packages：
 	`conda list -n kavenv`
 
-- 在 py3 安装 packages：
+- 在 kavenv 安装 packages：
 	`conda install -n kavenv Django=1.8.2`
 
 - 注销（离开）当前环境，恢复之前环境状态：
-	`source deactivate kaenv `
+	`source deactivate kavenv `
 
-- 移除 py3 虚拟环境：
+- 移除 kavenv 虚拟环境：
 	`conda remove -n kavenv --all`
 
 
