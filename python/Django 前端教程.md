@@ -28,7 +28,8 @@ kavout
 | 同步数据（version < 1.7.1）    | <i>**`python manage.py syncdb`**</i> | 文档声称自 1.7 版起已弃用，但我们的主站 kavout.com 的 Django 版本为 1.8.12，同步数据时仍需要使用该命令才能成功。[知道具体原因的请再此说明]|
 | 同步数据（version >= 1.7.1）   | <i>**`python manage.py makemigrations`**</i><br><i>**`python manage.py migrate`**</i>|启动项目时，可能会看到红色提醒 <small style='color:red'>You have unapplied migrations; your app may not work properly until they are applied.</small><br>按照提示，执行 <i>**`python manage.py migrate`**</i> 即可。<br>这时，会在项目根目录生成 *db.sqlite3* 数据文件，保存 Django 自带一些应用数据 |
 | 启动 Django 服务   | <i>**`python manage.py runserver`**</i> | 默认在 127.0.0.1:8000 启动，如果提示 <small style='color:red'>Error: That port is already in use.</small> 说明端口被占用。<br>可以选择在其他端口（如 8080）启动：<br><i>**`python manage.py runserver 8080`**</i>|
-| 新建一个应用（如：blog） | <i>**`python manage.py startapp blog`**</i> | 执行成功，会在项目根目录生成 blog 应用目录。blog 目录下的文件在下一小节介绍|
+| 新建一个应用（如：blog） | <i>**`python manage.py startapp blog`**</i> | 执行成功，会在项目根目录生成 `blog` 应用目录。`blog` 目录下的文件在下一小节介绍|
+| 汇集静态文件到指定目录  | <i>**`python manage.py collectstatic`**</i> | 把 app 下 `static` 中的静态文件全部拷贝到 `STATIC_ROOT` 路径指定的文件夹下。变量`STATIC_ROOT`在`settings.py`中设置 |
 
 <span style="color:red">**Tips：**</span><br/>
 使用 *python manage.py* 系列命令时，通常会将具体参数写入项目配置目录下的单独配置文件，如 *`kavout/settings_dev.py`*。<br>
@@ -242,7 +243,7 @@ kavout（项目容器，执行 django-admin.py startproject kavout 自动生成�
 	
 - 如果服务正常启动，页面仍然报 `ERR_EMPTY_RESPONSE` 错误，则可能是因为开启了翻墙工具，请尝试退出翻墙工具后重试
 
-- 模板加载静态资源时，可能会出现找不到情况。确定请求路径正确，并在在 `kavout/urls.py` 做额外配置：
+- `kavout/settings.py` 中 `DEBUG = True` 时，如果找不到静态资源，尝试在 `kavout/urls.py` 配置：
 	
 	```python
 	STATICFILES_DIRS = (
@@ -250,7 +251,18 @@ kavout（项目容器，执行 django-admin.py startproject kavout 自动生成�
 	)
 	```
 另外，如果使用 Django 相对路径方式加载静态资源，如 `<img src="{% static image %}loading.gif" />`，还需要在模板文件头部添加 `{% load static %}`
+
+- `kavout/settings.py` 中 `DEBUG = False` 时，如果找不到静态资源，尝试在 `kavout/urls.py` 配置：
+
+	```python
+	from django.views.static import serve as static_serve
 	
+	if settings.DEBUG is False:
+	    urlpatterns += [
+	        url(r'^static/(?P<path>.*)$', static_serve, {'document_root': settings.STATIC_ROOT}),
+	    ]
+	```
+
 - 如果向后端发送的是 Ajax 请求，则需要在 `views.py` 函数做相应处理：
 	
 	```python
