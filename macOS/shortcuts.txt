@@ -10,12 +10,13 @@ Atom / Sublime
 --------------------------------------------
 Cmd + P       			打开命令行
 Ctrl + G				跳转到某行
-Shift + Ctrl + K		预览 Markdown
+Shift + Ctrl + M		Markdown 预览
 Shift + Ctrl + K		删除当前行
 Shift + ⌘ + D 			复制当前行
 Ctrl + ⌘ + up			使当前行向上移动
 Ctrl + ⌘ + down 		使当前行向下移动 
 Ctrl + Alt + B			格式化代码（需要自行设置）
+Cmd + Shift + X			添加浏览器前缀（需要自行设置）
 
 Cmd + O       			打开文件所在目录
 View -> Side Bar  		打开左侧栏

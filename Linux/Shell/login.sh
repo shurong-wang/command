@@ -5,7 +5,7 @@ set host 114.55.179.26
 set password asdzxc123
 set timeout -1
 
-spawn ssh $user@$host
+spawn ssh -o StrictHostKeyChecking=no $user@$host
 expect "*password:"
 send "$password\r"
 send "cd ~/tenk/kquant-fe/kquantplatform\r"

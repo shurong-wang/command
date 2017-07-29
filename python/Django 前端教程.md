@@ -1,15 +1,15 @@
-Django 前端教程
+写给前端看的 Django 教程
 ---
 
 ### 1. Django 命令
 
 Django 安装成功，系统便拥有了 <i>**`django-admin.py`**</i> 命令。<br>
-执行 <i>**`django-admin.py startproject kavout`**</i> 会自动生成项目 kavout。<br>
+执行 <i>**`django-admin.py startproject bitcms`**</i> 会自动生成项目 bitcms。<br>
 项目初始目录结构如下：
 
 ```
-kavout
-	└── kavout
+bitcms
+	└── bitcms
 	    ├── __init__.py
 	    ├── settings.py
 	    ├── urls.py
@@ -25,25 +25,25 @@ kavout
 | 操作           			 | 命令        	             | 参数说明               |
 | :---------------------:|:--------------------------|:----------------------|
 | 查看 Django 版本    | <i>**`django-admin.py --version`**</i> |例如：我的 Django 版本为 1.8.12|
-| 同步数据（version < 1.7.1）    | <i>**`python manage.py syncdb`**</i> | 文档称自 1.7 版起已弃用，但我们的主站 kavout.com 的 Django 版本为 1.8.12，同步数据时仍需要使用该命令才能成功。[知道原因的请再此说明]|
+| 同步数据（version < 1.7.1）    | <i>**`python manage.py syncdb`**</i> | 文档称自 1.7 版起已弃用，但我们主站的 Django 版本为 1.8.12，同步数据时仍需要使用该命令才能成功。[知道原因的请再此说明]|
 | 同步数据（version >= 1.7.1）   | <i>**`python manage.py makemigrations`**</i><br><br><i>**`python manage.py migrate`**</i>|启动项目时，可能会看到红色提醒 <small style='color:red'>You have unapplied migrations; your app may not work properly until they are applied.</small><br>按照提示，执行 <i>**`python manage.py migrate`**</i> 即可。<br>这时，会在项目根目录生成 *db.sqlite3* 数据文件，保存 Django 自带一些应用数据 |
 | 启动 Django 服务   | <i>**`python manage.py runserver`**</i> | 默认在 127.0.0.1:8000 启动，如果提示 <small style='color:red'>Error: That port is already in use.</small> 说明端口被占用。<br>可以选择在其他端口（如 8080）启动：<br><i>**`python manage.py runserver 8080`**</i>|
 | 新建一个应用（如：blog） | <i>**`python manage.py startapp blog`**</i> | 执行成功，会在项目根目录生成 `blog` 应用目录。`blog` 目录下的文件在下一小节介绍|
 | 汇集静态文件到指定目录  | <i>**`python manage.py collectstatic`**</i> | 把 app 下 `static` 中的静态文件全部拷贝到 `STATIC_ROOT` 路径指定的文件夹下。变量`STATIC_ROOT`在`settings.py`中设置 |
 
 <span style="color:red">**Tips：**</span><br/>
-使用 *python manage.py* 系列命令时，通常会将具体参数写入项目配置目录下的单独配置文件，如 *`kavout/settings_dev.py`*。<br>
-然后，通过连接 *`--settings=kavout.settings_dev`* 执行。以我们 kavout.com 开发环境为例：
+使用 *python manage.py* 系列命令时，通常会将具体参数写入项目配置目录下的单独配置文件，如 *`bitcms/settings_dev.py`*。<br>
+然后，通过连接 *`--settings=bitcms.settings_dev`* 执行。以我们 bitcms.com 开发环境为例：
 
-- 同步数据：<i>**`python manage.py syncdb --settings=kavout.settings_dev`**</i>
-- 启动服务：<i>**`python manage.py runserver --settings=kavout.settings_dev`**</i><br>
+- 同步数据：<i>**`python manage.py syncdb --settings=bitcms.settings_dev`**</i>
+- 启动服务：<i>**`python manage.py runserver --settings=bitcms.settings_dev`**</i><br>
 
 
 ### 2. Django 项目结构
 
 ```
-kavout
-	└── kavout
+bitcms
+	└── bitcms
 		   ├── __init__.py
 		   ├── settings.py
 		   ├── settings.dev.py
@@ -83,10 +83,10 @@ kavout
 各目录文件的具体说明：
 
 ```
-kavout（项目容器，执行 django-admin.py startproject kavout 自动生成）
+bitcms（项目容器，执行 django-admin.py startproject bitcms 自动生成）
 
-	└── kavout（项目管理目录，与项目容器同时生成且同名。新手易误认为一个应用，为什么不叫 config !-_-）
-		   ├── __init__.py（默认空文件，声明所在目录 kavout 为 Python 模块）
+	└── bitcms（项目管理目录，与项目容器同时生成且同名。新手易误认为一个应用，为什么不叫 config !-_-）
+		   ├── __init__.py（默认空文件，声明所在目录 bitcms 为 Python 模块）
 		   ├── settings.py（项目配置文件，可以配置：路径、应用、模板、缓存、数据库、时区、语言等）
 		   ├── settings.dev.py（为开发环境添加单独的配置文件，方便本地调试）
 		   ├── urls.py（应用路由配置，在这里配置 URL 正则，将 URL 请求分发到 Views）
@@ -130,20 +130,20 @@ kavout（项目容器，执行 django-admin.py startproject kavout 自动生成�
 
 - 搭建环境时，需要执行 `pip install -r requirements.txt` 安装项目后端依赖
 
-- 运行环境时，需要执行 `python manage.py runserver --settings=kavout.settings_dev`
+- 运行环境时，需要执行 `python manage.py runserver --settings=bitcms.settings_dev`
 
-- 开发环境报 ***Bad Request(400)*** 错误时，在 `kavout/urls.py` 设置 `ALLOWED_HOSTS=['*']` 允许任意访问来源
+- 开发环境报 ***Bad Request(400)*** 错误时，在 `bitcms/urls.py` 设置 `ALLOWED_HOSTS=['*']` 允许任意访问来源
 
-- 新建应用时，需要在 `kavout/settings.py` 等 *settings* 文件加入应用名；同时，在 `kavout/urls.py` 添加 URL 匹配
+- 新建应用时，需要在 `bitcms/settings.py` 等 *settings* 文件加入应用名；同时，在 `bitcms/urls.py` 添加 URL 匹配
 
-- 添加 HTML 页面时，除了编写模板文件，还需要修改应用下的 `urls.py`、`views.py` 文件，以及项目配置目录 `kavout` 下的 `urls.py`。后面小节会具体介绍
+- 添加 HTML 页面时，除了编写模板文件，还需要修改应用下的 `urls.py`、`views.py` 文件，以及项目配置目录 `bitcms` 下的 `urls.py`。后面小节会具体介绍
 
 
 ### 3. 添加新页面
 
 想要为`blog 应用`添加一个页面，并在 Django 服务中通过 URL 访问，需要完成以下步骤：
 
-1. 添加 `blog 应用`到 `kavout/settings.py`：
+1. 添加 `blog 应用`到 `bitcms/settings.py`：
 
 	```python
 		INSTALLED_APPS = (
@@ -169,7 +169,7 @@ kavout（项目容器，执行 django-admin.py startproject kavout 自动生成�
 		        <title>{{ title }}</title>
 		    </head>
 		    <body>
-		        <h3>Kavout 博客</h3>
+		        <h3>bitcms 博客</h3>
 		        <div class="content">
 		            <ul>
 		                {% for blog in blogs %}
@@ -221,11 +221,11 @@ kavout（项目容器，执行 django-admin.py startproject kavout 自动生成�
 	    url(r'^index/', views.index), # 注意：r'^index/' 不要忘掉斜杠 /
 	]
 	```
-	添加项目配置路由 `kavout/urls.py`：
+	添加项目配置路由 `bitcms/urls.py`：
 	
 	```python
 	# -*- coding: utf-8 -*-
-	"""Kavout URL Configuration
+	"""bitcms URL Configuration
 	from django.conf.urls import include, url
 	from django.contrib import admin
 	
@@ -243,7 +243,7 @@ kavout（项目容器，执行 django-admin.py startproject kavout 自动生成�
 	
 - 如果服务正常启动，页面仍然报 `ERR_EMPTY_RESPONSE` 错误，则可能是因为开启了翻墙工具，请尝试退出翻墙工具后重试
 
-- `kavout/settings.py` 中 `DEBUG = True` 时，如果找不到静态资源，尝试在 `kavout/urls.py` 配置：
+- `bitcms/settings.py` 中 `DEBUG = True` 时，如果找不到静态资源，尝试在 `bitcms/urls.py` 配置：
 	
 	```python
 	STATICFILES_DIRS = (
@@ -252,7 +252,7 @@ kavout（项目容器，执行 django-admin.py startproject kavout 自动生成�
 	```
 另外，如果使用 Django 相对路径方式加载静态资源，如 `<img src="{% static image %}loading.gif" />`，还需要在模板文件头部添加 `{% load static %}`
 
-- `kavout/settings.py` 中 `DEBUG = False` 时，如果找不到静态资源，尝试在 `kavout/urls.py` 配置：
+- `bitcms/settings.py` 中 `DEBUG = False` 时，如果找不到静态资源，尝试在 `bitcms/urls.py` 配置：
 
 	```python
 	from django.views.static import serve as static_serve
@@ -393,25 +393,25 @@ DTL(Django template language) 是 Django 默认的模板语言，DTL 常用模�
 	`conda info --envs`
 
 - 创建一个 python3 虚拟环境：
-	`conda create -n kavenv python=3`
+	`conda create -n bitenv python=3`
 
 - 激活（进入） py3 虚拟环境：
-	`source activate kavenv`
+	`source activate bitenv`
 
 - 查看 python 版本：
 	`python --version`
 
-- 查看 kavenv 已安装的 packages：
-	`conda list -n kavenv`
+- 查看 bitenv 已安装的 packages：
+	`conda list -n bitenv`
 
-- 在 kavenv 安装 packages：
-	`conda install -n kavenv Django=1.8.2`
+- 在 bitenv 安装 packages：
+	`conda install -n bitenv Django=1.8.2`
 
 - 注销（离开）当前环境，恢复之前环境状态：
-	`source deactivate kavenv `
+	`source deactivate bitenv `
 
-- 移除 kavenv 虚拟环境：
-	`conda remove -n kavenv --all`
+- 移除 bitenv 虚拟环境：
+	`conda remove -n bitenv --all`
 
 
 
