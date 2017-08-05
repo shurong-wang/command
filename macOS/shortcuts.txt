@@ -1,9 +1,7 @@
-
 ⌘ 	Cmd
 ⌥	Alt
 ⌃	Ctrl
 ⇧	Shift
---------------------------------------------
 
 
 Atom / Sublime 
@@ -17,9 +15,9 @@ Ctrl + ⌘ + up			使当前行向上移动
 Ctrl + ⌘ + down 		使当前行向下移动 
 Ctrl + Alt + B			格式化代码（需要自行设置）
 Cmd + Shift + X			添加浏览器前缀（需要自行设置）
+Shift + Cmd + Q			在浏览器打开（需要自行设置）
 
 Cmd + O       			打开文件所在目录
-View -> Side Bar  		打开左侧栏
 Ctrl + R       			定位函数
 Ctrl + G				定位到行
 Ctrl + ⌘ + G  			批量修改相同内容
@@ -70,5 +68,3 @@ Cmd + shift + } 	向右切换标签
 --------------------------------------------
 显示隐藏文件：defaults write com.apple.finder AppleShowAllFiles -bool true
 不显示隐藏文件：defaults write com.apple.finder AppleShowAllFiles -bool false
-
-
