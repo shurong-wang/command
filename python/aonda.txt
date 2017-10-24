@@ -18,7 +18,7 @@ conda list
 # 在 py3 环境安装 jupyter
 conda install -n py3 jupyter
 
-# 注销掉当前环境，恢复之前环境状态
+# 注销当前环境，回退到之前环境状态
 source deactivate
 
 # 移除 py3 环境

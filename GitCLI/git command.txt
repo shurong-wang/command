@@ -3,14 +3,14 @@
 Working Directory |	 Staging area	|	  Local repo	|	Remote repo
 -----------------------------------------------------------------------
 		|---- git add ---->|--- git commit --->|---- git push --->|
-		|------------ git commit -a  --------->|---- git push --->|
-		|<-- git checkout -|<--- git reset ----|<--- git pull ----|
+		|------------ git commit -am  -------->|---- git push --->|
+		|<- git checkout --|<--- git reset ----|<--- git pull ----|
 		|<--------- git reset --hard HEAD -----|<--- git pull ----|
 =======================================================================
 
 
 # 从远程主机克隆一个版本库
-$ git clone https://github.com/jquery/jquery.git
+git clone https://github.com/jquery/jquery.git
 
 # 与远程分支建立追踪关系(tracking)
 git branch --set-upstream master origin/master
@@ -235,6 +235,10 @@ git blame index.php
 ----------------------------------------------------------------------------------------------------
 git reflog 	# 查看该所有操作日志 -- 例如,丢失的提交信息如下:
 
-# 4bc50d4 HEAD@{24}: rebase: 修改开户状态相关
+# 794b305 HEAD@{24}: rebase: 修改开户状态相关
 
-git branch recoverBranch 4bc50d4	# 在丢失的 commit(4bc50d4) 上创建一个新分支, 即可恢复此次提交
+git branch recover-branch 794b305	# 在丢失的 commit(794b305) 上创建一个新分支, 即可恢复此次提交
+
+
+
+

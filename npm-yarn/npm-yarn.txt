@@ -61,3 +61,7 @@ npm update lodash -g
 yarn global upgrade webpack
 
 -------------------------------------------------------------
+
+# 查看全局依赖包
+npm ls -g
+
