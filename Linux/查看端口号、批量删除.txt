@@ -8,10 +8,10 @@ kill `lsof -t -i:3000`
 # kill -9 $(lsof -i:3000 |awk '{print $2}' | tail -n 2)
 
 # 批量删除文件
-sudo find -name '*.log' | xargs sudo rm -rf
+sudo find ./ -name '*.log' | xargs sudo rm -rf
 
 # 批量查找文件
-sudo find -name '*rb' | xargs grep 'bind_user'
+sudo find ./ -name '*rb' | xargs grep 'bind_user'
 
 # 使修改 hosts 后生效:
 sudo apt-get install nscd
