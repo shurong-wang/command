@@ -1,0 +1,29 @@
+
+使用 git clone 命令从 github 上同代码库时，如果使用 SSH 链接，而你的 SSH key 没有添加到 github 帐号设置中，系统会报下面的错误：
+Permission denied (publickey).
+fatal: The remote end hung up unexpectedly
+
+这时需要在本地创建 SSH key，然后将生成的SSH key 文件内容添加到 github 帐号上去。
+
+创建 SSH key 的方法很简单，执行如下命令就可以：
+ssh-keygen
+
+然后系统提示输入文件保存位置等信息，连续敲三次回车即可，生成的 SSH key 文件保存在中 ~/.ssh/id_rsa.pub
+
+然后用文本编辑工具打开该文件，我用的是vim,所以命令是：
+vim ~/.ssh/id_rsa.pub
+
+接着拷贝 .ssh/id_rsa.pub 文件内的所以内容，将它粘帖到 github 帐号管理中的添加 SSH key 界面中.
+
+打开github帐号管理中的添加SSH key界面的步骤如下：
+1. 登录 github
+2. 点击右上方的 Accounting settings 图标
+3. 选择 SSH key
+4. 点击 Add SSH key
+
+在出现的界面中填写 SSH key 的名称，填一个你自己喜欢的名称即可.
+然后将上面拷贝的 ~/.ssh/id_rsa.pub 文件内容粘帖到 key 一栏，在点击 “add key” 按钮就可以了。
+
+添加过程 github 会提示你输入一次你的github密码
+
+添加完成后再次执行 git clone 就可以成功克隆 github 上的代码库了
