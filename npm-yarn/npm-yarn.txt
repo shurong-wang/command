@@ -42,7 +42,7 @@ yarn add lodash@4.17.2
 # npm install --save-dev lodash@4.17.2
 yarn add lodash@4.17.2 --dev
 
-# npm install --global lodash@4.17.2
+# npm install lodash@4.17.2
 yarn global add lodash@4.17.2
 
 # npm uninstall --save lodash
