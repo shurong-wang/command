@@ -21,7 +21,8 @@ git config --global user.email '442570303@qq.com'
 git config --global color.ui true
 git config --global merge.tool vimdiff
 git config --global branch.autosetuprebase always	# rebase 让历史变得清晰（所有分支）
-git config branch.master.rebase true				# rebase 让历史变得清晰（指定分支）
+git config branch.master.rebase true			# rebase 让历史变得清晰（指定分支）
+git config --global core.autocrlf false			# Windows 禁止 LF will be replaced by CRLF
 git config --list
 
 # 禁止终端显示中文文件名为 \xxx\xxx 形式
