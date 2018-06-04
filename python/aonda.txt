@@ -1,25 +1,36 @@
-conda
----
-# 查看 python 环境列表
+
+# 查看 python 环境列表：
 conda info --envs
 
-# 创建一个 python3 环境，命名为 py3
-conda create -n py3 python=3
+# 创建一个 python 2.7 版本虚拟环境：
+conda create -n python27 python=3
 
-# 激活特定 py3 环境
-source activate py3
+# 激活（进入） py3 虚拟环境：
+source activate python27
 
-# 查看 python 版本
+# 查看 python 版本：
 python --version
 
-# 查看环境中包的列表
-conda list
+# 查看 python27 已安装的 packages：
+conda list -n python27
 
-# 在 py3 环境安装 jupyter
-conda install -n py3 jupyter
+# 在 python27 安装 packages：
+conda install -n python27 Django=1.8.2
 
-# 注销当前环境，回退到之前环境状态
-source deactivate
+# 在 python27 安装 requirements.txt：
+conda install --yes --file requirements.txt
 
-# 移除 py3 环境
-conda remove -n py3 --all
+# 注销（离开）当前环境，恢复之前环境状态：
+source deactivate python27
+
+# 移除 python27 虚拟环境：
+conda remove -n python27 --all
+
+# 导出环境配置
+conda env export > python27.yml
+
+# conda env create -f python27.yml
+
+# 使用 pipreqs 生成项目 requirements.txt：
+pip install pipreqs
+pipreqs ./
