@@ -356,6 +356,17 @@ DTL(Django template language) 是 Django 默认的模板语言，DTL 常用模�
 ```
 
 ```html
+<ul>
+    {% for athlete in athlete_list %} 
+        <li>{{ athlete.name }}</li> 
+    {% empty %} 
+        <li>抱歉，列表为空</li>
+    {% endfor %}
+</ul>
+
+```
+
+```html
 {% ifequal user currentuser %}
     <h1>Welcome!</h1>
 {% endifequal %}
