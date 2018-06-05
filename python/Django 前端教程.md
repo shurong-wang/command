@@ -390,28 +390,41 @@ DTL(Django template language) 是 Django 默认的模板语言，DTL 常用模�
 下面以 Anaconda 为例，列出搭建一个 python 的虚拟运行环境用到的命令：
 
 - 查看 python 环境列表：
-	`conda info --envs`
+`conda info --envs`
 
-- 创建一个 python3 虚拟环境：
-	`conda create -n bitenv python=3`
+- 创建一个 python 2.7 版本虚拟环境：
+`conda create -n python27 python=2.7`
 
-- 激活（进入） py3 虚拟环境：
-	`source activate bitenv`
+- 进入python27 虚拟环境：
+`source activate python27`
 
 - 查看 python 版本：
-	`python --version`
+`python --version`
 
-- 查看 bitenv 已安装的 packages：
-	`conda list -n bitenv`
+- 查看 python27 已安装的 packages：
+`conda list -n python27`
 
-- 在 bitenv 安装 packages：
-	`conda install -n bitenv Django=1.8.2`
+- 在 python27 安装 packages：
+`conda install -n python27 Django=1.8.2`
+
+-  在 python27 安装 requirements.txt：
+`conda install --yes --file requirements.txt`
 
 - 注销（离开）当前环境，恢复之前环境状态：
-	`source deactivate bitenv `
+`source deactivate python27`
 
-- 移除 bitenv 虚拟环境：
-	`conda remove -n bitenv --all`
+- 移除 python27 虚拟环境：
+`conda remove -n python27 --all`
+
+- 导出环境的 conda 配置文件：
+`conda env export > python27.yml`
+
+- 使用配置创建一致的环境：
+`conda env create -f python27.yml`
+
+-  使用 pipreqs 生成项目 requirements.txt：
+`pip install pipreqs`
+`pipreqs ./`
 
 
 
