@@ -356,6 +356,12 @@ DTL(Django template language) 是 Django 默认的模板语言，DTL 常用模�
 ```
 
 ```html
+{% ifequal user currentuser %}
+    <h1>Welcome!</h1>
+{% endifequal %}
+```
+
+```html
 {{ request.path }}?{{ request.GET.urlencode }}
 ```
 
